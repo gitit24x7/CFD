@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}body{margin:0;background:#F5F1E8;color:#2A2720;font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#0B0A08;text-decoration:none}a:hover{color:#8E6B1F}
+button{font-family:'JetBrains Mono',monospace;color:#0B0A08;font-size:13px}
+*:focus-visible{outline:2px solid #3B8FD6;outline-offset:2px}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-10px) rotate(1deg)}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes twinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.35) rotate(25deg)}}
+@keyframes wob{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pop{0%{transform:scale(.8);opacity:0}70%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
+</style>
+</helmet>
+<div style="min-height:100vh;background-color:#F5F1E8;background-image:radial-gradient(#D6CEB5 1.2px,transparent 1.6px);background-size:28px 28px">
+
+<nav style="position:sticky;top:0;z-index:20;background:#F5F1E8;border-bottom:2px solid #0B0A08;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding:12px 32px">
+  <a href="#top" onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;white-space:nowrap;font-family:'Cormorant SC',serif;font-weight:700;font-size:28px"><span style="display:grid;grid-template-columns:1fr 1fr;gap:3px;width:26px"><i style="height:12px;background:#FF8A6B;border:1.5px solid #0B0A08;border-radius:4px"></i><i style="height:12px;background:#FFD046;border:1.5px solid #0B0A08;border-radius:4px"></i><i style="height:12px;background:#6DBBFF;border:1.5px solid #0B0A08;border-radius:4px"></i><i style="height:12px;background:#6FD8B0;border:1.5px solid #0B0A08;border-radius:4px"></i></span><span style="display:flex;flex-direction:column;gap:2px;line-height:1"><span style="font-size:30px;letter-spacing:.04em">CFD</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#4A443A">computer for dummies</span></span></a>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;font-family:'JetBrains Mono',monospace;font-size:13px">
+    <a href="#first" onClick="{{ goHome }}" style="padding:7px 14px;white-space:nowrap;border-radius:99px;background:#FFD046;border:2px solid #0B0A08">First principles</a><a href="#parts" onClick="{{ goHome }}" style="padding:7px 14px;white-space:nowrap;border-radius:99px;background:#6DBBFF;border:2px solid #0B0A08">The parts</a><a href="#whole" onClick="{{ goHome }}" style="padding:7px 14px;white-space:nowrap;border-radius:99px;background:#FF9CC2;border:2px solid #0B0A08">As a whole</a><a href="#whole" onClick="{{ openGround }}" style="padding:7px 14px;white-space:nowrap;border-radius:99px;background:#6FD8B0;border:2px solid #0B0A08">Full course</a>
+  </div>
+  <button onClick="{{ toggleSound }}" style="cursor:pointer;background:#FBF8EE;border:2px solid #0B0A08;border-radius:99px;white-space:nowrap;padding:7px 14px">[sound: {{ soundLabel }}]</button>
+</nav>
+
+<header id="top" style="max-width:1240px;margin:0 auto;padding:36px 32px 12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:24px">
+  <div style="min-width:0;position:relative;background:#FBF8EE;border:2px solid #0B0A08;border-radius:44px;box-shadow:8px 8px 0 #0B0A08;padding:clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:center;overflow:hidden"><i style="position:absolute;right:-60px;bottom:-60px;width:220px;height:220px;border-radius:50%;background:#FFD046;opacity:.35"></i><i style="position:absolute;right:30px;bottom:30px;width:90px;height:90px;border-radius:50%;background:#FF9CC2;opacity:.5"></i><i style="position:absolute;right:36px;top:30px;width:44px;height:44px;background:#FF8A6B;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:twinkle 3s ease-in-out infinite"></i><i style="position:absolute;right:96px;top:78px;width:26px;height:26px;background:#B39BFF;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:twinkle 4s ease-in-out infinite"></i><i style="position:absolute;right:22px;top:110px;width:20px;height:20px;background:#6FD8B0;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:twinkle 2.5s ease-in-out infinite"></i>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;background:#B39BFF;border:2px solid #0B0A08;border-radius:99px;padding:6px 14px;white-space:nowrap;align-self:flex-start;margin-bottom:22px">learn by poking things</div>
+    <h1 style="font-family:'Cormorant SC',serif;font-weight:700;font-size:clamp(44px,6.2vw,92px);line-height:.95;margin:0;color:#0B0A08;overflow-wrap:anywhere">Computers,<br><span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;background:#FFD046;padding:0 .12em;border:2px solid #0B0A08;border-radius:18px;display:inline-block;transform:rotate(-2deg);margin-top:8px">un-boxed.</span></h1>
+    <p style="font-size:19px;line-height:1.55;max-width:500px;margin:26px 0 28px">Start with one tiny switch. Climb to gates, memory, a CPU, then build a whole PC yourself. Nothing here breaks, so press everything.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <button onClick="{{ openBits }}" style="cursor:pointer;font-weight:600;font-size:15px;background:#FF8A6B;border:2px solid #0B0A08;border-radius:14px;padding:15px 26px;box-shadow:4px 4px 0 #0B0A08" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #0B0A08">[Start from zero]</button>
+      <button onClick="{{ openBuild }}" style="cursor:pointer;font-size:15px;background:#6FD8B0;border:2px solid #0B0A08;border-radius:14px;padding:15px 26px;box-shadow:4px 4px 0 #0B0A08" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #0B0A08">[Build a PC]</button>
+      <button onClick="{{ openGround }}" style="cursor:pointer;font-size:15px;background:#B39BFF;border:2px solid #0B0A08;border-radius:14px;padding:15px 26px;box-shadow:4px 4px 0 #0B0A08" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #0B0A08">[Full course]</button>
+    </div>
+  </div>
+  <div style="position:relative;min-height:480px;background-color:#173A82;background-image:radial-gradient(#fff 1.2px,transparent 1.8px),radial-gradient(#FFD046 1px,transparent 1.6px),radial-gradient(circle at 70% 30%,#2F6FC4 0,transparent 55%);background-size:46px 46px,83px 83px,100% 100%;background-position:0 0,20px 31px,0 0;border:2px solid #0B0A08;border-radius:36px;box-shadow:8px 8px 0 #0B0A08;overflow:hidden">
+    <div style="position:absolute;left:50%;top:54%;width:min(330px,70%);aspect-ratio:1;margin:calc(min(330px,70%) / -2) 0 0 calc(min(330px,70%) / -2);border:2px solid #0B0A08;border-radius:50%;overflow:hidden;animation:bob 5s ease-in-out infinite;box-shadow:0 0 0 10px #ffffff22"><img src="uploads/pasted-1791532566989-0.png" alt="Kiko the astronaut cat floating in space" style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.15)"></div>
+    <div style="position:absolute;left:18px;top:18px;right:18px;max-width:300px;background:#FBF8EE;border:2px solid #0B0A08;border-radius:18px 18px 18px 4px;padding:12px 16px;font-size:15px;line-height:1.4;box-shadow:3px 3px 0 #0B0A08">{{ say }}</div>
+    <div style="position:absolute;right:22px;top:110px;transform:rotate(8deg);background:#FF8A6B;border:2px solid #0B0A08;border-radius:12px;padding:8px 14px;font-family:'JetBrains Mono',monospace;font-weight:600;box-shadow:3px 3px 0 #0B0A08;animation:bob 4s ease-in-out infinite">1010</div>
+    <div style="position:absolute;left:24px;bottom:110px;transform:rotate(-8deg);background:#FFD046;border:2px solid #0B0A08;border-radius:12px;padding:8px 14px;font-family:'JetBrains Mono',monospace;font-weight:600;box-shadow:3px 3px 0 #0B0A08;animation:bob 6s ease-in-out infinite">CPU</div>
+    <div style="position:absolute;right:30px;bottom:70px;transform:rotate(6deg);background:#6FD8B0;border:2px solid #0B0A08;border-radius:12px;padding:8px 14px;font-family:'JetBrains Mono',monospace;font-weight:600;box-shadow:3px 3px 0 #0B0A08;animation:bob 5s ease-in-out infinite">RAM</div>
+    <div style="position:absolute;left:40px;top:52%;transform:rotate(-4deg);background:#B39BFF;border:2px solid #0B0A08;border-radius:12px;padding:8px 14px;font-family:'JetBrains Mono',monospace;font-weight:600;box-shadow:3px 3px 0 #0B0A08;animation:bob 7s ease-in-out infinite">GPU</div>
+    <div style="position:absolute;left:0;right:0;bottom:14px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F1E8">Kiko, your cat guide</div>
+  </div>
+</header>
+<div style="margin:36px 0 0;background:#0B0A08;color:#F5F1E8;border-block:2px solid #0B0A08;overflow:hidden;white-space:nowrap"><div style="display:inline-block;padding:14px 0;font-family:'Cormorant SC',serif;font-weight:700;font-size:30px;letter-spacing:.04em;animation:marquee 40s linear infinite">
+<span style="color:#FF8A6B">Bits</span> &#9679; <span style="color:#FFD046">Gates</span> &#9679; <span style="color:#6FD8B0">CPU</span> &#9679; <span style="color:#6DBBFF">RAM</span> &#9679; <span style="color:#B39BFF">Storage</span> &#9679; <span style="color:#FF9CC2">GPU</span> &#9679; <span style="color:#FF8A6B">Power</span> &#9679; <span style="color:#FFD046">Cooling</span> &#9679; <span style="color:#6FD8B0">OS</span> &#9679; <span style="color:#6DBBFF">Network</span> &#9679; <span style="color:#FF8A6B">Bits</span> &#9679; <span style="color:#FFD046">Gates</span> &#9679; <span style="color:#6FD8B0">CPU</span> &#9679; <span style="color:#6DBBFF">RAM</span> &#9679; <span style="color:#B39BFF">Storage</span> &#9679; <span style="color:#FF9CC2">GPU</span> &#9679; <span style="color:#FF8A6B">Power</span> &#9679; <span style="color:#FFD046">Cooling</span> &#9679; <span style="color:#6FD8B0">OS</span> &#9679; <span style="color:#6DBBFF">Network</span> &#9679; </div></div>
+
+<main style="position:relative;overflow:hidden"><i style="position:absolute;left:-120px;top:120px;width:360px;height:360px;border-radius:50%;background:#6DBBFF;opacity:.22"></i><i style="position:absolute;right:-100px;top:760px;width:300px;height:300px;border-radius:40% 60% 55% 45%;background:#FF9CC2;opacity:.28;animation:wob 8s ease-in-out infinite"></i><i style="position:absolute;left:-80px;top:1500px;width:320px;height:320px;border-radius:50%;background:#FFD046;opacity:.3"></i>
+<section id="first" style="position:relative;max-width:1240px;margin:0 auto;padding:56px 32px 12px">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;margin-bottom:26px">
+    <div style="display:flex;align-items:center;gap:18px">
+      <div style="width:64px;height:64px;border-radius:50%;background:#FF8A6B;border:2px solid #0B0A08;box-shadow:3px 3px 0 #0B0A08;display:flex;align-items:center;justify-content:center;font-family:'Cormorant SC',serif;font-weight:700;font-size:36px">1</div>
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#8E6B1F">Part 1 | From first principles</div>
+      <h2 style="font-family:'Cormorant SC',serif;font-weight:700;font-size:clamp(34px,5vw,54px);line-height:1;margin:2px 0 0;color:#0B0A08">Switches to thinking</h2></div>
+    </div><div style="min-width:240px;background:#FBF8EE;border:2px solid #0B0A08;border-radius:16px;padding:10px 14px;box-shadow:3px 3px 0 #0B0A08"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;margin-bottom:6px">{{ doneCount }} / {{ unitTotal }} explored</div><div style="height:12px;border:2px solid #0B0A08;border-radius:99px;background:#F5F1E8;overflow:hidden"><div style="height:100%;background:#6FD8B0;width:{{ donePct }}"></div></div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px"><sc-for list="{{ cardsA }}" as="u" hint-placeholder-count="6">
+      <button onClick="{{ u.open }}" style="cursor:pointer;text-align:left;background:{{ u.bg }};border:2px solid #0B0A08;border-radius:30px;box-shadow:5px 5px 0 #0B0A08;padding:22px 22px 20px;display:flex;flex-direction:column;gap:6px;min-height:210px;position:relative;overflow:hidden;transform:rotate({{ u.rot }}deg)" style-hover="transform:translate(-3px,-5px) rotate(0deg) scale(1.02);box-shadow:8px 8px 0 #0B0A08"><i style="position:absolute;right:-30px;top:44px;width:120px;height:120px;background:#FBF8EE;opacity:.45;border-radius:{{ u.rad }};transform:rotate(18deg)"></i><i style="position:absolute;right:36px;top:96px;width:18px;height:18px;background:#0B0A08;opacity:.85;border-radius:50%"></i>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;width:100%">
+          <span style="font-family:'Cormorant SC',serif;font-weight:700;font-size:64px;line-height:.8;color:#0B0A08">{{ u.num }}</span>
+          <span style="font-weight:600;font-size:11px;background:#0B0A08;color:#F5F1E8;border-radius:99px;padding:5px 10px;white-space:nowrap">{{ u.tag }}</span>
+        </div>
+        <div style="margin-top:auto;font-family:'Cormorant SC',serif;font-weight:700;font-size:28px;line-height:1">{{ u.title }}</div>
+        <div style="font-family:Inter,sans-serif;font-size:14px;line-height:1.4;color:#0B0A08">{{ u.blurb }}</div>
+        <div style="position:absolute;right:14px;bottom:14px;width:26px;height:26px;border-radius:50%;border:2px solid #0B0A08;background:#FBF8EE;display:flex;align-items:center;justify-content:center;font-weight:600;opacity:{{ u.op }}">&#10003;</div>
+      </button>
+    </sc-for></div>
+</section>
+<section id="parts" style="position:relative;max-width:1240px;margin:0 auto;padding:56px 32px 12px">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;margin-bottom:26px">
+    <div style="display:flex;align-items:center;gap:18px">
+      <div style="width:64px;height:64px;border-radius:50%;background:#6DBBFF;border:2px solid #0B0A08;box-shadow:3px 3px 0 #0B0A08;display:flex;align-items:center;justify-content:center;font-family:'Cormorant SC',serif;font-weight:700;font-size:36px">2</div>
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#8E6B1F">Part 2 | Every unit</div>
+      <h2 style="font-family:'Cormorant SC',serif;font-weight:700;font-size:clamp(34px,5vw,54px);line-height:1;margin:2px 0 0;color:#0B0A08">Meet the parts</h2></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px"><sc-for list="{{ cardsB }}" as="u" hint-placeholder-count="6">
+      <button onClick="{{ u.open }}" style="cursor:pointer;text-align:left;background:{{ u.bg }};border:2px solid #0B0A08;border-radius:24px;box-shadow:5px 5px 0 #0B0A08;padding:20px 20px 18px;display:flex;flex-direction:column;gap:6px;min-height:200px;position:relative;overflow:hidden" style-hover="transform:translate(-3px,-3px) rotate(-.6deg);box-shadow:8px 8px 0 #0B0A08">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;width:100%">
+          <span style="font-family:'Cormorant SC',serif;font-weight:700;font-size:64px;line-height:.8;color:#0B0A08">{{ u.num }}</span>
+          <span style="font-weight:600;font-size:11px;background:#0B0A08;color:#F5F1E8;border-radius:99px;padding:5px 10px">{{ u.tag }}</span>
+        </div>
+        <div style="margin-top:auto;font-family:'Cormorant SC',serif;font-weight:700;font-size:28px;line-height:1">{{ u.title }}</div>
+        <div style="font-family:Inter,sans-serif;font-size:14px;line-height:1.4;color:#0B0A08">{{ u.blurb }}</div>
+        <div style="position:absolute;right:14px;bottom:14px;width:26px;height:26px;border-radius:50%;border:2px solid #0B0A08;background:#FBF8EE;display:flex;align-items:center;justify-content:center;font-weight:600;opacity:{{ u.op }}">&#10003;</div>
+      </button>
+    </sc-for></div>
+</section>
+<section id="whole" style="position:relative;max-width:1240px;margin:0 auto;padding:56px 32px 72px">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;margin-bottom:26px">
+    <div style="display:flex;align-items:center;gap:18px">
+      <div style="width:64px;height:64px;border-radius:50%;background:#6FD8B0;border:2px solid #0B0A08;box-shadow:3px 3px 0 #0B0A08;display:flex;align-items:center;justify-content:center;font-family:'Cormorant SC',serif;font-weight:700;font-size:36px">3</div>
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#8E6B1F">Part 3 | The whole machine</div>
+      <h2 style="font-family:'Cormorant SC',serif;font-weight:700;font-size:clamp(34px,5vw,54px);line-height:1;margin:2px 0 0;color:#0B0A08">Put it all together</h2></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px"><sc-for list="{{ wholeCards }}" as="w" hint-placeholder-count="7">
+      <button onClick="{{ w.open }}" style="cursor:pointer;text-align:left;background:{{ w.bg }};border:2px solid #0B0A08;border-radius:30px;box-shadow:5px 5px 0 #0B0A08;padding:24px;display:flex;flex-direction:column;gap:8px;min-height:190px;grid-column:{{ w.span }};position:relative;overflow:hidden;transform:rotate({{ w.rot }}deg)" style-hover="transform:translate(-3px,-5px) rotate(0deg) scale(1.02);box-shadow:8px 8px 0 #0B0A08"><i style="position:absolute;right:-26px;bottom:-26px;width:130px;height:130px;background:#FBF8EE;opacity:.45;border-radius:{{ w.rad }};transform:rotate(18deg)"></i>
+        <span style="font-weight:600;font-size:11px;background:#0B0A08;color:#F5F1E8;border-radius:99px;padding:5px 10px;white-space:nowrap;align-self:flex-start">{{ w.tag }}</span>
+        <span style="margin-top:auto;font-family:'Cormorant SC',serif;font-weight:700;font-size:32px;line-height:1">{{ w.title }}</span>
+        <span style="font-family:Inter,sans-serif;font-size:14px;line-height:1.4">{{ w.blurb }}</span>
+      </button>
+    </sc-for></div>
+</section>
+<footer style="position:relative;margin-top:40px">
+  <div style="height:36px;background-image:radial-gradient(circle at 24px 36px,#173A82 23px,transparent 24px);background-size:48px 36px;background-repeat:repeat-x"></div>
+  <div style="position:relative;overflow:hidden;background-color:#173A82;background-image:radial-gradient(#fff 1.2px,transparent 1.8px),radial-gradient(#FFD046 1px,transparent 1.6px);background-size:46px 46px,83px 83px;background-position:0 0,20px 31px;padding:48px 32px 28px">
+    <i style="position:absolute;left:4%;top:24px;width:54px;height:54px;border-radius:50%;background:#FF8A6B;border:2px solid #0B0A08;opacity:.9;animation:bob 5s ease-in-out infinite"></i><i style="position:absolute;left:18%;bottom:70px;width:30px;height:30px;border-radius:50%;background:#FFD046;border:2px solid #0B0A08;opacity:.9;animation:bob 6s ease-in-out infinite"></i><i style="position:absolute;right:6%;top:30px;width:70px;height:70px;border-radius:50%;background:#6FD8B0;border:2px solid #0B0A08;opacity:.9;animation:bob 7s ease-in-out infinite"></i><i style="position:absolute;right:22%;bottom:60px;width:38px;height:38px;border-radius:50%;background:#B39BFF;border:2px solid #0B0A08;opacity:.9;animation:bob 4.5s ease-in-out infinite"></i><i style="position:absolute;left:46%;top:12px;width:22px;height:22px;border-radius:50%;background:#FF9CC2;border:2px solid #0B0A08;opacity:.9;animation:bob 5.5s ease-in-out infinite"></i><i style="position:absolute;right:2%;bottom:90px;width:26px;height:26px;border-radius:50%;background:#6DBBFF;border:2px solid #0B0A08;opacity:.9;animation:bob 6.5s ease-in-out infinite"></i>
+    <div style="position:relative;max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;gap:28px 48px;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:18px;min-width:0">
+        <div style="width:84px;height:84px;flex:none;border-radius:50%;border:2px solid #0B0A08;box-shadow:0 0 0 6px #ffffff22;background-image:url(uploads/pasted-1791532566989-0.png);background-size:270%;background-position:55% 20%;background-color:#2b5d9b;animation:wob 4s ease-in-out infinite"></div>
+        <div style="min-width:0">
+          <div style="font-family:'Cormorant SC',serif;font-weight:700;font-size:clamp(34px,5vw,56px);line-height:1;color:#F5F1E8"><span style="color:#FFD046">Made</span> <span style="color:#FF9CC2">with</span> <span style="color:#6FD8B0">bits</span> <span style="color:#6DBBFF">&amp;</span> <span style="color:#FF8A6B">love</span></div>
+          <div style="margin-top:8px;font-size:17px;color:#F5F1E8">Made by <b style="color:#FFD046">Aditya Ojha</b> | Bangalore, India</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+        <span style="background:#FF8A6B;border:2px solid #0B0A08;border-radius:99px;padding:7px 14px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#0B0A08;white-space:nowrap;transform:rotate(-3deg);box-shadow:3px 3px 0 #0B0A08">Kiko says: press everything</span><span style="background:#6FD8B0;border:2px solid #0B0A08;border-radius:99px;padding:7px 14px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#0B0A08;white-space:nowrap;transform:rotate(2deg);box-shadow:3px 3px 0 #0B0A08">16 lessons</span><span style="background:#B39BFF;border:2px solid #0B0A08;border-radius:99px;padding:7px 14px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#0B0A08;white-space:nowrap;transform:rotate(-2deg);box-shadow:3px 3px 0 #0B0A08">1 PC to build</span>
+      </div>
+    </div>
+    <div style="position:relative;max-width:1240px;margin:28px auto 0;padding-top:18px;border-top:2px dashed #ffffff55;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F1E8">
+      <span>&copy; 2026 Aditya Ojha. All rights reserved.</span>
+      <span>CFD (computer for dummies) and Kiko the cat are protected works. No part may be copied or reused without permission.</span>
+    </div>
+  </div>
+</footer>
+</main>
+
+<sc-if value="{{ show.lesson }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:50;background:#F5F1E8;overflow-x:hidden;overflow-y:auto">
+  <div style="position:sticky;top:0;z-index:5;background:{{ cur.color }};border-bottom:2px solid #0B0A08;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:12px 32px">
+    <button onClick="{{ goHome }}" style="cursor:pointer;background:#FBF8EE;border:2px solid #0B0A08;border-radius:12px;padding:8px 14px;box-shadow:3px 3px 0 #0B0A08">[&larr; Back]</button>
+    <div style="font-family:'Cormorant SC',serif;font-weight:700;font-size:clamp(22px,3vw,32px);line-height:1.1;white-space:nowrap">{{ cur.title }}</div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:10px;max-width:460px">
+      <div style="width:52px;height:52px;border-radius:50%;border:2px solid #0B0A08;flex:none;background-image:url(uploads/pasted-1791532566989-0.png);background-size:270%;background-position:55% 20%;background-color:#2b5d9b;animation:wob 4s ease-in-out infinite"></div>
+      <div style="font-size:14px;line-height:1.35;background:#FBF8EE;border:2px solid #0B0A08;border-radius:16px 16px 16px 4px;padding:10px 14px;line-height:1.5;min-height:1.5em">{{ say }}</div>
+    </div>
+  </div>
+  <sc-if value="{{ show.ground }}" hint-placeholder-val="{{ false }}"><iframe src="Ground Up Course.html" title="Ground Up Computing course" style="display:block;width:100%;height:calc(100vh - 78px);border:0;background:#F5F1E8"></iframe></sc-if>
+  <div style="display:{{ cdisp }};max-width:1120px;margin:0 auto;padding:32px">
+
+  <sc-if value="{{ show.isUnit }}" hint-placeholder-val="{{ false }}">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;align-items:start">
+    <div style="background:{{ cur.color }};border:1.5px solid #0B0A08;border-radius:20px;box-shadow:6px 6px 0 #0B0A08;padding:28px;border-radius:28px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#0B0A08;opacity:.7">{{ cur.tag }}</div>
+      <h3 style="font-family:'Cormorant SC',serif;font-weight:700;font-size:38px;margin:4px 0 12px;line-height:1">{{ cur.title }}</h3>
+      <p style="margin:0 0 14px;font-size:17px;line-height:1.55">{{ cur.what }}</p>
+      <p style="margin:0 0 16px;font-size:16px;line-height:1.55"><b>Think of it as</b> {{ cur.analogy }}</p>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;background:#FBF8EE;border:1.5px dashed #0B0A08;border-radius:10px;padding:10px 12px;line-height:1.5">fun fact: {{ cur.fact }}</div>
+      <sc-if value="{{ cur.hasMore }}" hint-placeholder-val="{{ false }}"><div style="margin-top:16px;display:flex;flex-direction:column;gap:10px"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600">[ deep dive ]</div><sc-for list="{{ cur.moreList }}" as="m" hint-placeholder-count="3"><div style="background:#FBF8EE;border:2px solid #0B0A08;border-radius:14px;padding:10px 14px"><div style="font-family:'Cormorant SC',serif;font-weight:700;font-size:20px;line-height:1.1">{{ m.h }}</div><div style="font-size:14px;line-height:1.5;margin-top:2px">{{ m.t }}</div></div></sc-for></div></sc-if>
+      <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+        <button onClick="{{ prevUnit }}" style="cursor:pointer;background:#FBF8EE;border:1.5px solid #0B0A08;border-radius:8px;padding:8px 12px">[&larr; {{ prevName }}]</button>
+        <button onClick="{{ nextUnit }}" style="cursor:pointer;background:#FBF8EE;border:1.5px solid #0B0A08;border-radius:8px;padding:8px 12px">[{{ nextName }} &rarr;]</button>
+      </div>
+    </div>
+    <div style="background:#FBF8EE;border:1.5px solid #0B0A08;border-radius:20px;box-shadow:6px 6px 0 #0B0A08;padding:28px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B655A;margin-bottom:18px;line-height:1.5">[ try it ] {{ cur.task }}</div>
+      <sc-for list="{{ T.blocks }}" as="b" hint-placeholder-count="2">
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+          <sc-if value="{{ b.hasLabel }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;font-weight:600;font-family:'JetBrains Mono',monospace">{{ b.label }}</div></sc-if>
+          <sc-if value="{{ b.hasLines }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:6px">
+            <sc-for list="{{ b.lines }}" as="l" hint-placeholder-count="1"><div style="font-family:'JetBrains Mono',monospace;font-size:14px;padding:8px 12px;border:1.5px solid #0B0A08;border-radius:8px;background:{{ l.bg }}">{{ l.t }}</div></sc-for>
+          </div></sc-if>
+          <sc-if value="{{ b.hasChips }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ b.chips }}" as="c" hint-placeholder-count="1"><button onClick="{{ c.go }}" style-hover="transform:translateY(-2px) rotate(-1deg)" style="cursor:pointer;padding:9px 13px;border:1.5px solid #0B0A08;border-radius:12px;box-shadow:2px 2px 0 #0B0A08;background:{{ c.bg }};opacity:{{ c.op }}">{{ c.t }}</button></sc-for>
+          </div></sc-if>
+          <sc-if value="{{ b.hasCells }}" hint-placeholder-val="{{ false }}"><div style="display:grid;gap:{{ b.gap }};grid-template-columns:repeat({{ b.cols }},minmax(0,1fr));max-width:{{ b.maxw }}">
+            <sc-for list="{{ b.cells }}" as="c" hint-placeholder-count="1"><button onClick="{{ c.go }}" style-hover="transform:scale(1.08)" style="cursor:pointer;aspect-ratio:1;padding:0;border:1.5px solid #0B0A08;border-radius:8px;background:{{ c.c }};font-size:18px;font-weight:600">{{ c.t }}</button></sc-for>
+          </div></sc-if>
+          <sc-if value="{{ b.hasSliders }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ b.sliders }}" as="s" hint-placeholder-count="1"><label style="font-size:13px;display:block">{{ s.t }}: {{ s.v }}%<input type="range" min="0" max="100" value="{{ s.v }}" onInput="{{ s.set }}" style="width:100%;display:block;margin-top:4px"></label></sc-for>
+          </div></sc-if>
+          <sc-if value="{{ b.hasMeters }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ b.meters }}" as="m" hint-placeholder-count="1"><div><div style="font-size:12px;margin-bottom:4px">{{ m.t }}</div><div style="height:26px;border:1.5px solid #0B0A08;border-radius:8px;background:#F5F1E8;overflow:hidden"><div style="height:100%;background:{{ m.col }};width:{{ m.pct }}"></div></div></div></sc-for>
+          </div></sc-if>
+          <sc-if value="{{ b.hasReads }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-wrap:wrap;gap:12px 32px;align-items:flex-end">
+            <sc-for list="{{ b.reads }}" as="r" hint-placeholder-count="1"><div><div style="font-size:11px;font-family:'JetBrains Mono',monospace;color:#6B655A">{{ r.k }}</div><div style="font-family:'Cormorant SC',serif;font-weight:700;font-size:44px;line-height:1">{{ r.v }}</div></div></sc-for>
+          </div></sc-if>
+          <sc-if value="{{ b.hasBtns }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ b.btns }}" as="x" hint-placeholder-count="1"><button onClick="{{ x.go }}" style="cursor:pointer;font-weight:600;background:{{ x.bg }};border:1.5px solid #0B0A08;border-radius:8px;padding:10px 16px;box-shadow:3px 3px 0 #0B0A08">[{{ x.t }}]</button></sc-for>
+          </div></sc-if>
+          <sc-if value="{{ b.hasMsg }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;line-height:1.5;color:#2A2720;background:#F2E4BE;border-radius:10px;padding:10px 12px">{{ b.msg }}</div></sc-if>
+        </div>
+      </sc-for>
+      <div style="padding-top:14px;border-top:1.5px dashed #A8A192;display:flex;justify-content:flex-end">
+        <button onClick="{{ markDone }}" style="cursor:pointer;font-weight:600;background:{{ doneBg }};border:1.5px solid #0B0A08;border-radius:8px;padding:10px 18px">{{ doneLabel }}</button>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ show.isScn }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:860px;margin:0 auto">
+      <p style="font-size:18px;margin:0 0 20px;line-height:1.5">{{ scn.intro }}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px">
+        <sc-for list="{{ scnChips }}" as="c" hint-placeholder-count="11"><div style="padding:8px 12px;border:1.5px solid #0B0A08;border-radius:10px;font-size:13px;font-weight:600;background:{{ c.bg }};box-shadow:{{ c.sh }}">{{ c.name }}</div></sc-for>
+      </div>
+      <div style="background:#FBF8EE;border:1.5px solid #0B0A08;border-radius:20px;box-shadow:6px 6px 0 #0B0A08;padding:28px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8E6B1F">step {{ scnNum }} of {{ scnTotal }}</div>
+        <h3 style="font-family:'Cormorant SC',serif;font-weight:700;font-size:36px;margin:4px 0 8px">{{ scnStep.title }}</h3>
+        <p style="font-size:17px;line-height:1.55;margin:0">{{ scnStep.text }}</p>
+        <sc-if value="{{ show.key }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:20px;padding-top:16px;border-top:1.5px dashed #A8A192">
+            <div style="font-size:12px;font-family:'JetBrains Mono',monospace;color:#6B655A;margin-bottom:8px">[ try it ] click the box and press any key</div>
+            <input onKeyDown="{{ onKey }}" placeholder="press a key here" readonly style="font-family:'JetBrains Mono',monospace;font-size:16px;padding:10px 12px;border:1.5px solid #0B0A08;border-radius:8px;background:#F5F1E8;width:220px">
+            <div style="margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:15px">{{ keyOut }}</div>
+          </div>
+        </sc-if>
+        <div style="display:flex;gap:8px;margin-top:22px">
+          <button onClick="{{ scnPrev }}" style="cursor:pointer;background:#FBF8EE;border:1.5px solid #0B0A08;border-radius:8px;padding:10px 16px">[&larr; Prev]</button>
+          <button onClick="{{ scnNext }}" style="cursor:pointer;font-weight:600;background:#C8A24B;border:1.5px solid #0B0A08;border-radius:8px;padding:10px 18px;box-shadow:3px 3px 0 #0B0A08">[{{ scnBtn }}]</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ show.build }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <p style="margin:0;font-size:17px;max-width:600px;line-height:1.5">Pick a part from the tray, or drag it into the case. Tap a part in the case to take it out. Fill all nine spots, stay under $1200, then hit power.</p>
+      <button onClick="{{ toggleGuide }}" style="cursor:pointer;background:#FBF8EE;border:2px solid #0B0A08;border-radius:99px;padding:8px 14px;box-shadow:3px 3px 0 #0B0A08">[Kiko's hints: {{ guideLabel }}]</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:28px;align-items:start">
+      <div style="min-width:0">
+        <svg viewBox="0 0 800 640" style="width:100%;height:auto;display:block;background:#173A82;border:3px solid #0B0A08;border-radius:34px;box-shadow:8px 8px 0 #0B0A08">
+  <defs><pattern id="dots" width="34" height="34" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="1.4" fill="#fff" opacity=".6"></circle></pattern></defs>
+  <rect x="6" y="6" width="788" height="628" rx="32" style="fill:{{ sl.case.fill }};stroke:#0B0A08;stroke-width:5;"></rect>
+  <rect x="26" y="26" width="748" height="588" rx="20" style="fill:#0E1A3F"></rect>
+  <rect x="26" y="26" width="748" height="588" rx="20" style="fill:url(#dots)"></rect>
+  <sc-if value="{{ sl.case.glass }}" hint-placeholder-val="{{ false }}"><polygon points="60,28 330,28 190,612 40,612" style="fill:#fff;opacity:.07"></polygon><polygon points="380,28 440,28 300,612 240,612" style="fill:#fff;opacity:.05"></polygon></sc-if>
+  <sc-if value="{{ sl.case.rgb }}" hint-placeholder-val="{{ false }}"><rect x="40" y="31" width="720" height="5" rx="2.5" style="fill:{{ ledCol }}"></rect></sc-if>
+  <sc-if value="{{ sl.case.empty }}" hint-placeholder-val="{{ true }}"><rect x="40" y="40" width="190" height="34" rx="17" style="fill:#ffffff14;stroke:#FBF8EE;stroke-width:2.5;stroke-dasharray:8 6"></rect><text x="135" y="62" text-anchor="middle" style="fill:#FBF8EE;font:600 24px JetBrains Mono,monospace">{{ sl.case.tag }}</text></sc-if><rect x="36" y="36" width="198" height="42" rx="20" style="fill:none;stroke:{{ sl.case.glow }};stroke-width:5"></rect>
+  <text x="44" y="60" style="fill:#8FA6E8;font:600 11px JetBrains Mono,monospace;display:none">case</text>
+  <rect x="6" y="6" width="788" height="628" onClick="{{ sl.case.click }}" onDragOver="{{ sl.case.over }}" onDrop="{{ sl.case.drop }}" style="fill:transparent;cursor:pointer"></rect>
+  <sc-if value="{{ sl.board.has }}" hint-placeholder-val="{{ false }}">
+    <rect x="24" y="86" width="48" height="216" rx="4" style="fill:#3A3630;stroke:#0B0A08;stroke-width:3;"></rect>
+    <rect x="30" y="96" width="14" height="14" style="fill:#5CB8FF;stroke:#0B0A08;stroke-width:2;"></rect><rect x="30" y="116" width="14" height="14" style="fill:#5CB8FF;stroke:#0B0A08;stroke-width:2;"></rect><rect x="48" y="96" width="14" height="14" style="fill:#5CB8FF;stroke:#0B0A08;stroke-width:2;"></rect><rect x="48" y="116" width="14" height="14" style="fill:#5CB8FF;stroke:#0B0A08;stroke-width:2;"></rect>
+    <rect x="30" y="144" width="32" height="18" style="fill:#0B0A08;stroke:#8FA6E8;stroke-width:2;"></rect><text x="46" y="157" text-anchor="middle" style="fill:#8FA6E8;font:600 10px JetBrains Mono,monospace">HDMI</text>
+    <circle cx="38" cy="186" r="6" style="fill:#6FD8B0;stroke:#0B0A08;stroke-width:2;"></circle><circle cx="38" cy="206" r="6" style="fill:#FF9CC2;stroke:#0B0A08;stroke-width:2;"></circle><circle cx="38" cy="226" r="6" style="fill:#5CB8FF;stroke:#0B0A08;stroke-width:2;"></circle>
+    <rect x="30" y="246" width="32" height="14" style="fill:#FFD046;stroke:#0B0A08;stroke-width:2;"></rect><rect x="30" y="266" width="32" height="14" style="fill:#FFD046;stroke:#0B0A08;stroke-width:2;"></rect>
+  </sc-if>
+  <rect x="70" y="50" width="470" height="470" rx="16" style="fill:{{ sl.board.fill }};stroke:#0B0A08;stroke-width:3.5;"></rect>
+  <sc-if value="{{ sl.board.has }}" hint-placeholder-val="{{ false }}">
+    <path d="M90 300 H210 V330 M110 70 V300 M110 100 H360 M360 100 V300 H440 M100 480 H520 M120 440 H520 M490 300 V500 M200 300 V330" style="fill:none;stroke:#0B0A08;stroke-width:2.5;opacity:.16"></path>
+    <rect x="116" y="68" width="190" height="26" rx="4" style="fill:#B7B1A3;stroke:#0B0A08;stroke-width:2.5;"></rect><path d="M130 68 V94 M146 68 V94 M162 68 V94 M178 68 V94 M194 68 V94 M210 68 V94 M226 68 V94 M242 68 V94 M258 68 V94 M274 68 V94 M290 68 V94" style="stroke:#0B0A08;stroke-width:2;opacity:.45"></path>
+    <rect x="86" y="108" width="26" height="170" rx="4" style="fill:#B7B1A3;stroke:#0B0A08;stroke-width:2.5;"></rect><path d="M86 124 H112 M86 140 H112 M86 156 H112 M86 172 H112 M86 188 H112 M86 204 H112 M86 220 H112 M86 236 H112 M86 252 H112" style="stroke:#0B0A08;stroke-width:2;opacity:.45"></path>
+    <rect x="250" y="52" width="62" height="14" rx="3" style="fill:#F2E4BE;stroke:#0B0A08;stroke-width:2;"></rect>
+    <rect x="436" y="296" width="62" height="30" rx="5" style="fill:#B7B1A3;stroke:#0B0A08;stroke-width:2.5;"></rect><text x="467" y="316" text-anchor="middle" style="fill:#0B0A08;font:600 11px JetBrains Mono,monospace">CHIPSET</text>
+    <rect x="516" y="240" width="16" height="84" rx="3" style="fill:#F2E4BE;stroke:#0B0A08;stroke-width:2;"></rect>
+    <rect x="510" y="350" width="26" height="12" rx="2" style="fill:#2A2720;stroke:#0B0A08;stroke-width:2;"></rect><rect x="510" y="368" width="26" height="12" rx="2" style="fill:#2A2720;stroke:#0B0A08;stroke-width:2;"></rect><rect x="510" y="386" width="26" height="12" rx="2" style="fill:#2A2720;stroke:#0B0A08;stroke-width:2;"></rect>
+    <rect x="110" y="438" width="270" height="14" rx="3" style="fill:#1B1B1B;stroke:#0B0A08;stroke-width:2;"></rect><rect x="110" y="466" width="150" height="14" rx="3" style="fill:#1B1B1B;stroke:#0B0A08;stroke-width:2;"></rect><rect x="110" y="494" width="270" height="14" rx="3" style="fill:#1B1B1B;stroke:#0B0A08;stroke-width:2;"></rect>
+    <circle cx="150" cy="300" r="5" style="fill:#FFD046;stroke:#0B0A08;stroke-width:2"></circle><circle cx="170" cy="300" r="5" style="fill:#FFD046;stroke:#0B0A08;stroke-width:2"></circle><circle cx="190" cy="300" r="5" style="fill:#0B0A08"></circle><circle cx="340" cy="260" r="6" style="fill:#FFD046;stroke:#0B0A08;stroke-width:2"></circle><circle cx="340" cy="282" r="6" style="fill:#0B0A08"></circle>
+    <rect x="228" y="138" width="104" height="104" rx="6" style="fill:#0B0A08;opacity:.9"></rect>
+    <text x="148" y="326" style="fill:#0B0A08;font:600 14px JetBrains Mono,monospace;opacity:.7">M.2</text><text x="112" y="434" style="fill:#0B0A08;font:600 14px JetBrains Mono,monospace;opacity:.7">PCIe x16</text>
+    <text x="300" y="502" style="fill:#0B0A08;font:600 16px JetBrains Mono,monospace;opacity:.8">{{ sl.board.sockTag }}</text>
+  </sc-if>
+  <rect x="376" y="76" width="22" height="206" rx="3" style="fill:#1B1B1B;stroke:#0B0A08;stroke-width:2"></rect><rect x="408" y="76" width="22" height="206" rx="3" style="fill:#1B1B1B;stroke:#0B0A08;stroke-width:2"></rect><rect x="440" y="76" width="22" height="206" rx="3" style="fill:#1B1B1B;stroke:#0B0A08;stroke-width:2"></rect><rect x="472" y="76" width="22" height="206" rx="3" style="fill:#1B1B1B;stroke:#0B0A08;stroke-width:2"></rect>
+  <sc-if value="{{ sl.board.empty }}" hint-placeholder-val="{{ true }}"><rect x="70" y="50" width="470" height="470" rx="16" style="fill:#ffffff10;stroke:#FBF8EE;stroke-width:2.5;stroke-dasharray:8 6"></rect><text x="150" y="300" text-anchor="middle" style="fill:#FBF8EE;font:600 13px JetBrains Mono,monospace;display:none">board</text></sc-if>
+  <rect x="66" y="46" width="478" height="478" rx="19" style="fill:none;stroke:{{ sl.board.glow }};stroke-width:5"></rect>
+  <sc-if value="{{ sl.board.empty }}" hint-placeholder-val="{{ true }}"><text x="305" y="296" text-anchor="middle" style="fill:#FBF8EE;font:600 28px JetBrains Mono,monospace">+ MOTHERBOARD</text></sc-if>
+  <rect x="70" y="50" width="470" height="470" onClick="{{ sl.board.click }}" onDragOver="{{ sl.board.over }}" onDrop="{{ sl.board.drop }}" style="fill:transparent;cursor:pointer"></rect>
+  <sc-if value="{{ sl.cpu.has }}" hint-placeholder-val="{{ false }}"><sc-if value="{{ sl.cooler.empty }}" hint-placeholder-val="{{ true }}">
+    <rect x="232" y="142" width="96" height="96" rx="6" style="fill:#C9C2B0;stroke:#0B0A08;stroke-width:3;"></rect><polygon points="232,142 252,142 232,162" style="fill:#0B0A08"></polygon>
+    <rect x="248" y="158" width="64" height="64" rx="4" style="fill:#FFE9A8;stroke:#0B0A08;stroke-width:2;"></rect>
+    <sc-for list="{{ sl.cpu.coreList }}" as="k" hint-placeholder-count="4"><rect x="{{ k.x }}" y="{{ k.y }}" width="12" height="12" rx="2" style="fill:#FF8A6B;stroke:#0B0A08;stroke-width:1.5;"></rect></sc-for>
+    <text x="280" y="256" text-anchor="middle" style="fill:#FBF8EE;font:600 14px JetBrains Mono,monospace">{{ sl.cpu.label }}</text>
+  </sc-if></sc-if>
+  <sc-if value="{{ sl.cpu.empty }}" hint-placeholder-val="{{ true }}"><rect x="232" y="142" width="96" height="96" rx="6" style="fill:#ffffff14;stroke:#FBF8EE;stroke-width:2.5;stroke-dasharray:8 6"></rect><text x="280" y="194" text-anchor="middle" style="fill:#FBF8EE;font:600 24px JetBrains Mono,monospace">{{ sl.cpu.tag }}</text></sc-if><rect x="228" y="138" width="104" height="104" rx="9" style="fill:none;stroke:{{ sl.cpu.glow }};stroke-width:5"></rect>
+  <rect x="232" y="142" width="96" height="96" onClick="{{ sl.cpu.click }}" onDragOver="{{ sl.cpu.over }}" onDrop="{{ sl.cpu.drop }}" style="fill:transparent;cursor:pointer"></rect>
+  <sc-if value="{{ sl.cooler.has }}" hint-placeholder-val="{{ false }}">
+    <sc-if value="{{ sl.cooler.stock }}" hint-placeholder-val="{{ false }}"><rect x="222" y="132" width="116" height="116" rx="10" style="fill:#E8E1CF;stroke:#0B0A08;stroke-width:3;"></rect><path d="M232 142 L328 238" style="stroke:#0B0A08;opacity:.2;stroke-width:2"></path><g transform="translate(280 190)"><circle r="40" style="fill:#0B0A08;stroke:#0B0A08;stroke-width:2;"></circle><g style="transform-box:fill-box;transform-origin:center;animation:{{ sl.spin }}"><rect x="-37" y="-4.5" width="74" height="9" rx="4.5" style="fill:#F5F1E8"></rect><rect x="-37" y="-4.5" width="74" height="9" rx="4.5" transform="rotate(60)" style="fill:#F5F1E8"></rect><rect x="-37" y="-4.5" width="74" height="9" rx="4.5" transform="rotate(120)" style="fill:#F5F1E8"></rect></g><circle r="8" style="fill:#FFD046;stroke:#0B0A08;stroke-width:2"></circle></g></sc-if>
+    <sc-if value="{{ sl.cooler.tower }}" hint-placeholder-val="{{ false }}"><rect x="212" y="108" width="136" height="164" rx="10" style="fill:#C9D4E8;stroke:#0B0A08;stroke-width:3;"></rect><path d="M222 124 H338 M222 140 H338 M222 156 H338 M222 224 H338 M222 240 H338 M222 256 H338" style="stroke:#0B0A08;stroke-width:2;opacity:.4"></path><rect x="206" y="150" width="6" height="80" style="fill:#B7B1A3;stroke:#0B0A08;stroke-width:2;"></rect><g transform="translate(280 190)"><circle r="44" style="fill:#0B0A08;stroke:#0B0A08;stroke-width:2;"></circle><g style="transform-box:fill-box;transform-origin:center;animation:{{ sl.spin }}"><rect x="-41" y="-4.5" width="82" height="9" rx="4.5" style="fill:#6DBBFF"></rect><rect x="-41" y="-4.5" width="82" height="9" rx="4.5" transform="rotate(60)" style="fill:#6DBBFF"></rect><rect x="-41" y="-4.5" width="82" height="9" rx="4.5" transform="rotate(120)" style="fill:#6DBBFF"></rect></g><circle r="8.8" style="fill:#FFD046;stroke:#0B0A08;stroke-width:2"></circle></g></sc-if>
+    <sc-if value="{{ sl.cooler.liquid }}" hint-placeholder-val="{{ false }}"><path d="M262 140 C262 100 230 90 228 58 M300 140 C300 100 332 90 334 58" style="fill:none;stroke:#0B0A08;stroke-width:9;stroke-linecap:round"></path><path d="M262 140 C262 100 230 90 228 58 M300 140 C300 100 332 90 334 58" style="fill:none;stroke:#FF8A6B;stroke-width:5;stroke-linecap:round"></path>
+      <rect x="150" y="24" width="270" height="34" rx="6" style="fill:#2A2720;stroke:#0B0A08;stroke-width:3;"></rect><path d="M170 24 V58 M190 24 V58 M210 24 V58 M230 24 V58 M250 24 V58 M270 24 V58 M290 24 V58 M310 24 V58 M330 24 V58 M350 24 V58 M370 24 V58 M390 24 V58" style="stroke:#8FA6E8;stroke-width:2;opacity:.5"></path>
+      <rect x="230" y="140" width="100" height="100" rx="18" style="fill:#2A2720;stroke:#0B0A08;stroke-width:3;"></rect><circle cx="280" cy="190" r="30" style="fill:#FF8A6B;stroke:#0B0A08;stroke-width:3;"></circle><circle cx="280" cy="190" r="12" style="fill:{{ ledCol }};stroke:#0B0A08;stroke-width:2"></circle></sc-if>
+  </sc-if>
+  <rect x="208" y="104" width="144" height="172" rx="12" style="fill:none;stroke:{{ sl.cooler.glow }};stroke-width:5"></rect>
+  <sc-if value="{{ sl.cooler.empty }}" hint-placeholder-val="{{ true }}"><text x="280" y="296" text-anchor="middle" style="fill:#0B0A08;font:600 15px JetBrains Mono,monospace;opacity:.8">+ cooler</text></sc-if>
+  <sc-if value="{{ sl.cooler.has }}" hint-placeholder-val="{{ false }}"><rect x="208" y="104" width="144" height="172" onClick="{{ sl.cooler.click }}" onDragOver="{{ sl.cooler.over }}" onDrop="{{ sl.cooler.drop }}" style="fill:transparent;cursor:pointer"></rect></sc-if>
+  <sc-for list="{{ sl.ram.sticks }}" as="m" hint-placeholder-count="2"><g><rect x="{{ m.x }}" y="70" width="26" height="218" rx="3" style="fill:{{ m.fill }};stroke:#0B0A08;stroke-width:2.5;"></rect><rect x="{{ m.x }}" y="70" width="26" height="30" rx="3" style="fill:{{ m.top }};stroke:#0B0A08;stroke-width:2.5;"></rect><rect x="{{ m.cx }}" y="112" width="16" height="22" rx="2" style="fill:#0B0A08"></rect><rect x="{{ m.cx }}" y="146" width="16" height="22" rx="2" style="fill:#0B0A08"></rect><rect x="{{ m.cx }}" y="180" width="16" height="22" rx="2" style="fill:#0B0A08"></rect><rect x="{{ m.cx }}" y="214" width="16" height="22" rx="2" style="fill:#0B0A08"></rect><rect x="{{ m.x }}" y="262" width="26" height="8" style="fill:#FFD046"></rect></g></sc-for>
+  <sc-if value="{{ sl.ram.empty }}" hint-placeholder-val="{{ true }}"><rect x="372" y="70" width="126" height="218" rx="6" style="fill:#ffffff14;stroke:#FBF8EE;stroke-width:2.5;stroke-dasharray:8 6"></rect><text x="435" y="183" text-anchor="middle" style="fill:#FBF8EE;font:600 24px JetBrains Mono,monospace">{{ sl.ram.tag }}</text></sc-if><rect x="368" y="66" width="134" height="226" rx="9" style="fill:none;stroke:{{ sl.ram.glow }};stroke-width:5"></rect>
+  <rect x="372" y="70" width="126" height="218" onClick="{{ sl.ram.click }}" onDragOver="{{ sl.ram.over }}" onDrop="{{ sl.ram.drop }}" style="fill:transparent;cursor:pointer"></rect>
+  <sc-if value="{{ sl.storage.nvme }}" hint-placeholder-val="{{ false }}"><rect x="140" y="290" width="150" height="18" rx="3" style="fill:#2A2720;stroke:#0B0A08;stroke-width:2.5;"></rect><rect x="150" y="293" width="30" height="12" rx="2" style="fill:#8FA6E8"></rect><rect x="188" y="293" width="30" height="12" rx="2" style="fill:#8FA6E8"></rect><rect x="226" y="293" width="30" height="12" rx="2" style="fill:#FFD046"></rect><sc-if value="{{ sl.storage.sink }}" hint-placeholder-val="{{ false }}"><rect x="136" y="285" width="158" height="28" rx="4" style="fill:#FF9CC2;stroke:#0B0A08;stroke-width:2.5;"></rect><path d="M150 285 V313 M166 285 V313 M182 285 V313 M198 285 V313 M214 285 V313 M230 285 V313 M246 285 V313 M262 285 V313 M278 285 V313" style="stroke:#0B0A08;stroke-width:2;opacity:.4"></path></sc-if></sc-if>
+  <sc-if value="{{ sl.storage.hdd }}" hint-placeholder-val="{{ false }}"><rect x="560" y="340" width="108" height="140" rx="8" style="fill:#A8A192;stroke:#0B0A08;stroke-width:3;"></rect><circle cx="613" cy="400" r="40" style="fill:#E8E1CF;stroke:#0B0A08;stroke-width:2.5;"></circle><circle cx="613" cy="400" r="12" style="fill:#0B0A08"></circle><path d="M650 360 L622 396" style="stroke:#0B0A08;stroke-width:5;stroke-linecap:round"></path><rect x="572" y="450" width="84" height="20" rx="3" style="fill:#F5F1E8;stroke:#0B0A08;stroke-width:2"></rect><path d="M560 372 C540 372 540 358 528 358" style="fill:none;stroke:#FF8A6B;stroke-width:5"></path></sc-if>
+  <sc-if value="{{ sl.storage.empty }}" hint-placeholder-val="{{ true }}"><rect x="136" y="284" width="160" height="30" rx="5" style="fill:#ffffff14;stroke:#FBF8EE;stroke-width:2.5;stroke-dasharray:8 6"></rect><text x="216" y="303" text-anchor="middle" style="fill:#FBF8EE;font:600 24px JetBrains Mono,monospace">{{ sl.storage.tag }}</text></sc-if><rect x="132" y="280" width="168" height="38" rx="8" style="fill:none;stroke:{{ sl.storage.glow }};stroke-width:5"></rect>
+  <sc-if value="{{ sl.storage.empty }}" hint-placeholder-val="{{ true }}"></sc-if>
+  <rect x="136" y="284" width="160" height="30" onClick="{{ sl.storage.click }}" onDragOver="{{ sl.storage.over }}" onDrop="{{ sl.storage.drop }}" style="fill:transparent;cursor:pointer"></rect>
+  <sc-if value="{{ sl.storage.hdd }}" hint-placeholder-val="{{ false }}"><rect x="560" y="340" width="108" height="140" onClick="{{ sl.storage.click }}" onDragOver="{{ sl.storage.over }}" onDrop="{{ sl.storage.drop }}" style="fill:transparent;cursor:pointer"></rect></sc-if>
+  <sc-if value="{{ sl.gpu.card }}" hint-placeholder-val="{{ false }}">
+    <rect x="62" y="334" width="16" height="92" rx="2" style="fill:#B7B1A3;stroke:#0B0A08;stroke-width:2.5;"></rect><rect x="66" y="344" width="8" height="12" style="fill:#0B0A08"></rect><rect x="66" y="364" width="8" height="12" style="fill:#0B0A08"></rect><rect x="66" y="384" width="8" height="12" style="fill:#0B0A08"></rect>
+    <rect x="78" y="332" width="{{ sl.gpu.w }}" height="96" rx="12" style="fill:{{ sl.gpu.fill }};stroke:#0B0A08;stroke-width:3.5;"></rect>
+    <rect x="{{ sl.gpu.px }}" y="322" width="38" height="12" rx="2" style="fill:#6FD8B0;stroke:#0B0A08;stroke-width:2;"></rect>
+    <sc-for list="{{ sl.gpu.fans }}" as="f" hint-placeholder-count="2"><g transform="{{ f.t }}"><circle r="34" style="fill:#0B0A08;stroke:#0B0A08;stroke-width:2;"></circle><g style="transform-box:fill-box;transform-origin:center;animation:{{ sl.spin }}"><rect x="-31" y="-4.5" width="62" height="9" rx="4.5" style="fill:#F5F1E8"></rect><rect x="-31" y="-4.5" width="62" height="9" rx="4.5" transform="rotate(60)" style="fill:#F5F1E8"></rect><rect x="-31" y="-4.5" width="62" height="9" rx="4.5" transform="rotate(120)" style="fill:#F5F1E8"></rect></g><circle r="6.800000000000001" style="fill:#FFD046;stroke:#0B0A08;stroke-width:2"></circle></g></sc-for>
+    <path d="M{{ sl.gpu.lx }} 344 V416" style="stroke:#0B0A08;stroke-width:3;opacity:.35"></path>
+    <text x="90" y="420" style="fill:#0B0A08;font:700 14px JetBrains Mono,monospace">{{ sl.gpu.label }}</text>
+  </sc-if>
+  <sc-if value="{{ sl.gpu.integrated }}" hint-placeholder-val="{{ false }}"><rect x="96" y="350" width="330" height="48" rx="8" style="fill:#ffffff18;stroke:#FBF8EE;stroke-width:2;stroke-dasharray:6 5"></rect><text x="261" y="381" text-anchor="middle" style="fill:#0B0A08;font:600 16px JetBrains Mono,monospace">graphics built into the CPU</text></sc-if>
+  <sc-if value="{{ sl.gpu.empty }}" hint-placeholder-val="{{ true }}"><rect x="78" y="332" width="440" height="96" rx="12" style="fill:#ffffff14;stroke:#FBF8EE;stroke-width:2.5;stroke-dasharray:8 6"></rect><text x="298" y="384" text-anchor="middle" style="fill:#FBF8EE;font:600 24px JetBrains Mono,monospace">{{ sl.gpu.tag }}</text></sc-if><rect x="74" y="328" width="448" height="104" rx="15" style="fill:none;stroke:{{ sl.gpu.glow }};stroke-width:5"></rect>
+  <rect x="78" y="332" width="440" height="96" onClick="{{ sl.gpu.click }}" onDragOver="{{ sl.gpu.over }}" onDrop="{{ sl.gpu.drop }}" style="fill:transparent;cursor:pointer"></rect>
+  <sc-if value="{{ sl.psu.has }}" hint-placeholder-val="{{ false }}">
+    <path d="M340 582 C470 582 560 470 526 330" style="fill:none;stroke:#0B0A08;stroke-width:9;stroke-linecap:round;opacity:.9"></path><path d="M340 582 C470 582 560 470 526 330" style="fill:none;stroke:#FFD046;stroke-width:4.5;stroke-linecap:round"></path>
+    <path d="M340 600 C420 604 470 520 424 336" style="fill:none;stroke:#0B0A08;stroke-width:9;stroke-linecap:round;opacity:.9"></path><path d="M340 600 C420 604 470 520 424 336" style="fill:none;stroke:#FF8A6B;stroke-width:4.5;stroke-linecap:round"></path>
+    <rect x="40" y="544" width="300" height="74" rx="12" style="fill:{{ sl.psu.fill }};stroke:#0B0A08;stroke-width:3.5;"></rect><g transform="translate(92 581)"><circle r="26" style="fill:#0B0A08;stroke:#0B0A08;stroke-width:2;"></circle><g style="transform-box:fill-box;transform-origin:center;animation:{{ sl.spin }}"><rect x="-23" y="-4.5" width="46" height="9" rx="4.5" style="fill:#F5F1E8"></rect><rect x="-23" y="-4.5" width="46" height="9" rx="4.5" transform="rotate(60)" style="fill:#F5F1E8"></rect><rect x="-23" y="-4.5" width="46" height="9" rx="4.5" transform="rotate(120)" style="fill:#F5F1E8"></rect></g><circle r="5.2" style="fill:#FFD046;stroke:#0B0A08;stroke-width:2"></circle></g>
+    <rect x="140" y="556" width="120" height="24" rx="4" style="fill:#FBF8EE;stroke:#0B0A08;stroke-width:2"></rect><text x="200" y="573" text-anchor="middle" style="fill:#0B0A08;font:700 16px JetBrains Mono,monospace">{{ sl.psu.label }}</text>
+    <rect x="290" y="560" width="30" height="42" rx="4" style="fill:#0B0A08"></rect><rect x="298" y="568" width="14" height="26" rx="2" style="fill:#FF8A6B"></rect><text x="140" y="604" style="fill:#0B0A08;font:600 13px JetBrains Mono,monospace">80+ certified</text>
+  </sc-if>
+  <sc-if value="{{ sl.psu.empty }}" hint-placeholder-val="{{ true }}"><rect x="40" y="544" width="300" height="74" rx="12" style="fill:#ffffff14;stroke:#FBF8EE;stroke-width:2.5;stroke-dasharray:8 6"></rect><text x="190" y="585" text-anchor="middle" style="fill:#FBF8EE;font:600 24px JetBrains Mono,monospace">{{ sl.psu.tag }}</text></sc-if><rect x="36" y="540" width="308" height="82" rx="15" style="fill:none;stroke:{{ sl.psu.glow }};stroke-width:5"></rect>
+  <rect x="40" y="544" width="300" height="74" onClick="{{ sl.psu.click }}" onDragOver="{{ sl.psu.over }}" onDrop="{{ sl.psu.drop }}" style="fill:transparent;cursor:pointer"></rect>
+  <sc-for list="{{ sl.fans.list }}" as="f" hint-placeholder-count="2"><g><rect x="692" y="{{ f.y }}" width="82" height="82" rx="10" style="fill:#22305f;stroke:#8FA6E8;stroke-width:2.5;"></rect><g transform="{{ f.t }}"><circle r="34" style="fill:#0B0A08;stroke:#0B0A08;stroke-width:2;"></circle><g style="transform-box:fill-box;transform-origin:center;animation:{{ sl.spin }}"><rect x="-31" y="-4.5" width="62" height="9" rx="4.5" style="fill:#9EE6F2"></rect><rect x="-31" y="-4.5" width="62" height="9" rx="4.5" transform="rotate(60)" style="fill:#9EE6F2"></rect><rect x="-31" y="-4.5" width="62" height="9" rx="4.5" transform="rotate(120)" style="fill:#9EE6F2"></rect></g><circle r="6.800000000000001" style="fill:#FFD046;stroke:#0B0A08;stroke-width:2"></circle></g></g></sc-for>
+  <sc-if value="{{ sl.fans.empty }}" hint-placeholder-val="{{ true }}"><rect x="688" y="76" width="90" height="300" rx="10" style="fill:#ffffff14;stroke:#FBF8EE;stroke-width:2.5;stroke-dasharray:8 6"></rect><text x="733" y="230" text-anchor="middle" style="fill:#FBF8EE;font:600 24px JetBrains Mono,monospace">{{ sl.fans.tag }}</text></sc-if><rect x="684" y="72" width="98" height="308" rx="13" style="fill:none;stroke:{{ sl.fans.glow }};stroke-width:5"></rect>
+  <rect x="688" y="76" width="90" height="300" onClick="{{ sl.fans.click }}" onDragOver="{{ sl.fans.over }}" onDrop="{{ sl.fans.drop }}" style="fill:transparent;cursor:pointer"></rect>
+  <circle cx="742" cy="570" r="18" style="fill:{{ ledCol }};stroke:#8FA6E8;stroke-width:3;"></circle><text x="742" y="606" text-anchor="middle" style="fill:#8FA6E8;font:600 14px JetBrains Mono,monospace">POWER</text>
+</svg>
+        <div style="max-width:700px;margin:22px auto 0;display:flex;flex-direction:column;align-items:center">
+          <div style="width:100%;background:#0B0A08;border:3px solid #0B0A08;border-radius:18px;padding:10px;box-shadow:6px 6px 0 #0B0A08;box-sizing:border-box"><div style="min-height:86px;background:#0E1A3F;border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.4;color:{{ screenCol }};box-sizing:border-box"><span>{{ screenText }}</span><i style="flex:none;width:14px;height:14px;border-radius:50%;background:{{ ledCol }};box-shadow:0 0 12px {{ ledCol }}"></i></div></div>
+          <div style="width:26px;height:22px;background:#0B0A08"></div><div style="width:130px;height:12px;background:#0B0A08;border-radius:6px"></div>
+        </div>
+      </div>
+      <div>
+        <div style="background:#FFE9A8;border:2px solid #0B0A08;border-radius:16px;padding:12px 14px;font-size:14px;line-height:1.45;margin-bottom:14px;box-shadow:3px 3px 0 #0B0A08">{{ buildHint }}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+          <sc-for list="{{ buildTabs }}" as="t" hint-placeholder-count="7"><button onClick="{{ t.go }}" style="cursor:pointer;font-weight:600;padding:8px 12px;border:2px solid #0B0A08;border-radius:99px;background:{{ t.bg }};box-shadow:{{ t.sh }}">{{ t.t }}</button></sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px">
+          <sc-for list="{{ tray }}" as="p" hint-placeholder-count="4">
+            <div draggable="true" onDragStart="{{ p.drag }}" onClick="{{ p.put }}" style="cursor:grab;padding:12px;border:2px solid #0B0A08;border-radius:18px;background:{{ p.bg }};box-shadow:3px 3px 0 #0B0A08;display:flex;flex-direction:column;gap:8px;align-items:flex-start;min-width:0;height:auto" style-hover="transform:translate(-2px,-3px) rotate(-1deg)">
+              <div style="height:58px;display:flex;align-items:center;gap:6px;flex:none">
+                <sc-if value="{{ p.isCase }}" hint-placeholder-val="{{ false }}"><div style="position:relative;width:56px;height:50px;background:{{ p.shell }};border:2px solid #0B0A08;border-radius:10px;box-sizing:border-box"><i style="position:absolute;left:6px;top:6px;right:6px;bottom:6px;background:#0E1A3F;border-radius:5px;border:2px solid #0B0A08"></i><i style="position:absolute;right:9px;top:9px;width:9px;height:9px;border-radius:50%;background:{{ p.led }}"></i></div></sc-if>
+                <sc-if value="{{ p.isFans }}" hint-placeholder-val="{{ false }}"><sc-for list="{{ p.fanN }}" as="k" hint-placeholder-count="1"><i style="display:block;width:24px;height:24px;border-radius:50%;border:2px solid #0B0A08;background:repeating-conic-gradient(#0B0A08 0 22deg,#9EE6F2 22deg 60deg)"></i></sc-for></sc-if>
+                <sc-if value="{{ p.isBoard }}" hint-placeholder-val="{{ false }}"><div style="position:relative;width:64px;height:46px;background:#6FD8B0;border:2px solid #0B0A08;border-radius:8px"><i style="position:absolute;left:7px;top:7px;width:18px;height:18px;background:#FFD046;border:1.5px solid #0B0A08;border-radius:3px"></i><i style="position:absolute;right:8px;top:6px;width:7px;height:30px;background:#B39BFF;border:1.5px solid #0B0A08"></i><i style="position:absolute;left:7px;bottom:6px;width:30px;height:7px;background:#FF8A6B;border:1.5px solid #0B0A08"></i></div></sc-if>
+                <sc-if value="{{ p.isCpu }}" hint-placeholder-val="{{ false }}"><div style="width:46px;height:46px;background:#C9C2B0;border:2px solid #0B0A08;border-radius:8px;display:grid;grid-template-columns:repeat({{ p.cols }},1fr);gap:3px;padding:6px;box-sizing:border-box"><sc-for list="{{ p.cores }}" as="k" hint-placeholder-count="4"><i style="background:#FFD046;border:1.5px solid #0B0A08;border-radius:2px"></i></sc-for></div></sc-if>
+                <sc-if value="{{ p.isCooler }}" hint-placeholder-val="{{ false }}"><i style="display:block;width:46px;height:46px;border-radius:50%;border:2px solid #0B0A08;background:repeating-conic-gradient(#0B0A08 0 22deg,#FBF8EE 22deg 60deg)"></i></sc-if>
+                <sc-if value="{{ p.isRam }}" hint-placeholder-val="{{ false }}"><sc-for list="{{ p.sticks }}" as="k" hint-placeholder-count="1"><div style="width:15px;height:48px;background:#5CB8FF;border:2px solid #0B0A08;border-radius:4px;display:flex;flex-direction:column;justify-content:space-evenly;align-items:center;box-sizing:border-box"><i style="width:7px;height:7px;background:#0B0A08;border-radius:2px"></i><i style="width:7px;height:7px;background:#0B0A08;border-radius:2px"></i><i style="width:7px;height:7px;background:#0B0A08;border-radius:2px"></i></div></sc-for></sc-if>
+                <sc-if value="{{ p.hdd }}" hint-placeholder-val="{{ false }}"><div style="width:46px;height:46px;border-radius:50%;border:2px solid #0B0A08;background:#E8E1CF;display:flex;align-items:center;justify-content:center;box-sizing:border-box"><i style="width:14px;height:14px;border-radius:50%;background:#0B0A08"></i></div></sc-if>
+                <sc-if value="{{ p.ssd }}" hint-placeholder-val="{{ false }}"><div style="width:58px;height:20px;background:#0B0A08;border-radius:5px;display:flex;align-items:center;justify-content:space-evenly"><i style="width:6px;height:6px;background:#6FD8B0;border-radius:50%"></i><i style="width:6px;height:6px;background:#6FD8B0;border-radius:50%"></i><i style="width:6px;height:6px;background:#6FD8B0;border-radius:50%"></i></div></sc-if>
+                <sc-if value="{{ p.isGpu }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:5px;height:34px;padding:0 8px;background:#FF8A6B;border:2px solid #0B0A08;border-radius:6px;min-width:46px;justify-content:center;box-sizing:border-box"><sc-for list="{{ p.fans }}" as="k" hint-placeholder-count="1"><i style="display:block;width:22px;height:22px;border-radius:50%;border:2px solid #0B0A08;background:repeating-conic-gradient(#0B0A08 0 22deg,#FBF8EE 22deg 60deg)"></i></sc-for><sc-if value="{{ p.integrated }}" hint-placeholder-val="{{ false }}"><span style="font-family:'JetBrains Mono',monospace;font-size:9px">in CPU</span></sc-if></div></sc-if>
+                <sc-if value="{{ p.isPsu }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;justify-content:center;width:58px;height:42px;background:#E8C766;border:2px solid #0B0A08;border-radius:8px;box-sizing:border-box"><i style="display:block;width:26px;height:26px;border-radius:50%;border:2px solid #0B0A08;background:repeating-conic-gradient(#0B0A08 0 22deg,#FBF8EE 22deg 60deg)"></i></div></sc-if>
+              </div>
+              <div style="flex:none;align-self:stretch;font-weight:600;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.3">{{ p.label }}</div>
+              <div style="flex:none;font-size:12px;line-height:1.4">{{ p.note }}<br><b>${{ p.price }}</b> | {{ p.w }}W</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:28px;background:#0B0A08;color:#F5F1E8;border-radius:20px;padding:18px 24px;display:flex;flex-wrap:wrap;gap:16px 36px;align-items:center;justify-content:space-between">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:14px;display:flex;gap:28px;flex-wrap:wrap"><span>cost <b style="color:{{ costCol }}">${{ cost }}</b> / $1200</span><span>power <b style="color:{{ wattCol }}">{{ watts }}W</b> / {{ psuW }}W</span></div>
+      <button onClick="{{ powerOn }}" style="cursor:pointer;font-weight:600;font-size:15px;background:#FF8A6B;border:2px solid #FBF8EE;border-radius:99px;padding:12px 26px;box-shadow:0 0 0 4px #FF8A6B55">[Power on]</button>
+    </div>
+    <sc-if value="{{ hasResult }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:20px;background:{{ result.bg }};border:2px solid #0B0A08;border-radius:24px;box-shadow:6px 6px 0 #0B0A08;padding:22px 26px;animation:pop .4s ease-out">
+        <div style="font-family:'Cormorant SC',serif;font-weight:700;font-size:34px;margin-bottom:8px">{{ result.title }}</div>
+        <sc-for list="{{ result.lines }}" as="l" hint-placeholder-count="3"><div style="font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.6">{{ l }}</div></sc-for>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <sc-if value="{{ show.quiz }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:720px;margin:0 auto;background:#FBF8EE;border:1.5px solid #0B0A08;border-radius:20px;box-shadow:6px 6px 0 #0B0A08;padding:28px">
+      <sc-if value="{{ quizOpen }}" hint-placeholder-val="{{ true }}">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8E6B1F">question {{ qNum }} of {{ qTotal }}</div>
+        <h3 style="font-family:'Cormorant SC',serif;font-weight:700;font-size:32px;margin:6px 0 18px;line-height:1.1">{{ qText }}</h3>
+        <div style="display:grid;gap:10px">
+          <sc-for list="{{ qOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.go }}" style="cursor:pointer;text-align:left;font-size:15px;padding:12px 14px;border:1.5px solid #0B0A08;border-radius:10px;background:{{ o.bg }}">{{ o.t }}</button></sc-for>
+        </div>
+        <div style="margin-top:14px;font-size:14px;min-height:20px">{{ qMsg }}</div>
+        <sc-if value="{{ qPicked }}" hint-placeholder-val="{{ false }}"><button onClick="{{ qNext }}" style="cursor:pointer;margin-top:8px;font-weight:600;background:#C8A24B;border:1.5px solid #0B0A08;border-radius:8px;padding:10px 18px;box-shadow:3px 3px 0 #0B0A08">[Next]</button></sc-if>
+      </sc-if>
+      <sc-if value="{{ quizDone }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center;padding:12px 0">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8E6B1F">your score</div>
+          <div style="font-family:'Cormorant SC',serif;font-weight:700;font-size:84px;line-height:1">{{ qScore }} / {{ qTotal }}</div>
+          <p style="font-size:17px;margin:10px 0 20px">{{ qVerdict }}</p>
+          <button onClick="{{ qRestart }}" style="cursor:pointer;font-weight:600;background:#C8A24B;border:1.5px solid #0B0A08;border-radius:8px;padding:10px 18px;box-shadow:3px 3px 0 #0B0A08">[Try again]</button>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ show.words }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:820px;margin:0 auto">
+      <input value="{{ wordQ }}" onInput="{{ setWordQ }}" placeholder="search a word..." style="width:100%;box-sizing:border-box;font-family:'JetBrains Mono',monospace;font-size:16px;padding:12px 14px;border:1.5px solid #0B0A08;border-radius:10px;background:#FBF8EE;margin-bottom:18px">
+      <div style="display:grid;gap:10px">
+        <sc-for list="{{ wordList }}" as="w" hint-placeholder-count="6">
+          <div style="background:#FBF8EE;border:1.5px solid #0B0A08;border-radius:12px;padding:12px 16px"><b style="font-family:'JetBrains Mono',monospace">{{ w.t }}</b><div style="font-size:15px;line-height:1.5;margin-top:2px">{{ w.d }}</div></div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  </div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { view:'home', done:{}, sound:true, say:"Hi, I'm Kiko! Pick something and poke it.",
+    bits:[0,0,0,0,0,0,0,0], tg:0, gA:0, gB:0, gm:'AND', adA:[0,1,1], adB:[0,0,1], rIn:[1,0,1,1], reg:[0,0,0,0], evo:0,
+    cpuN:0, ramC:'#E8C766', ram:Array(8).fill(null), disk:Array(8).fill(null), hdd:0, ssd:0, raceMsg:'Which one wins?',
+    bsel:null, bmatch:{}, bMsg:'Tap a part, then its socket.', gpu:Array(64).fill(null), gpuC:'#C8A24B', gpuMsg:'Click squares to paint.',
+    psuOn:{cpu:1,gpu:1,ram:1,ssd:0,fans:0,rgb:0}, psuSize:450, load:30, fan:40, ioI:0, ioScore:0, ioMsg:'',
+    osRun:{},osTab:'apps',osCall:0,osStep:0,schQ:2,schRem:[6,4,3],schCur:0,schLast:-1,schSw:0,schLog:[], netN:0, scN:0, lastKey:null, wordQ:'', qi:0, qs:0, qpick:null, build:{}, guide:true, result:null, bhint:'' };
+
+  U = [
+    {g:'A',id:'bits',tag:'BITS',title:'Bits & bytes',blurb:'Everything is ON or OFF.',what:'A computer only knows ON and OFF, written 1 and 0. Eight of them in a row make a byte: 256 possible numbers, and numbers can stand for letters.',analogy:'a row of light switches that spell secret messages.',fact:'"Bit" is short for "binary digit".',task:'Flip switches to spell a letter.'},
+    {g:'A',id:'trans',tag:'TRANSISTOR',title:'The transistor',blurb:'A switch flipped by electricity.',what:'A transistor is a tiny switch with no moving parts. A small signal on its gate lets a big current through, or blocks it. Everything else in a computer is built from these.',analogy:'a tap that another tap turns on.',fact:'A modern chip packs over 10 billion transistors into a thumbnail.',task:'Turn the gate on and watch the lamp.'},
+    {g:'A',id:'gates',tag:'LOGIC GATES',title:'Logic gates',blurb:'Switches that make decisions.',what:'Wire two or three transistors together and you get a gate that answers a yes/no question. AND needs both inputs on. OR needs either. NOT flips. XOR needs exactly one.',analogy:'a doorman with a rule: "only if both of you have a ticket".',fact:'NAND alone can build every other gate.',task:'Pick a gate and flip A and B.'},
+    {g:'A',id:'adder',tag:'ADDER',title:'Adding up',blurb:'Gates that do sums.',what:'XOR gives the sum of two bits and AND gives the carry, just like carrying a 1 in school maths. Chain these adders and a chip can add any numbers.',analogy:'column addition done by switches.',fact:'Subtraction, times and divide are all built from adding.',task:'Set two 3-bit numbers and read the sum.'},
+    {g:'A',id:'reg',tag:'REGISTER',title:'Registers',blurb:'Switches that remember.',what:'Loop gates back on themselves and they hold a value. A row of these is a register: the CPU\'s tiny scratch pad. A clock pulse tells it when to grab new data.',analogy:'sticky notes inside the CPU.',fact:'A CPU has only a few dozen registers, but they are the fastest memory in the machine.',task:'Set the input bits, then send a clock pulse.'},
+    {g:'A',id:'evo',tag:'HISTORY',title:'How we got here',blurb:'From glowing tubes to pocket chips.',what:'Each era solved one problem of the last. Tubes were hot and broke. Transistors were small and cool. Putting many on one chip made them cheap. A whole CPU on a chip made computers personal.',analogy:'one invention nudging the next.',fact:'Transistors per chip have roughly doubled every two years for 50 years.',task:'Step through the eras and see size shrink.'},
+    {g:'B',id:'cpu',tag:'CPU',title:'The brain',blurb:'Follows instructions, one tiny step at a time.',what:'The CPU runs instructions, billions per second. Each goes through three phases: fetch it, decode it, execute it. It is built from the gates, adders and registers you just met.',analogy:'a chef reading a recipe line by line.',fact:'A modern CPU ticks over 3 billion times a second.',task:'Press Tick to run a four-line program.'},
+    {g:'B',id:'ram',tag:'RAM',title:'Memory',blurb:'The fast desk that forgets.',what:'RAM holds whatever is being worked on right now. It is very fast, but forgets everything when power goes off.',analogy:'a desk: a bigger desk holds more open things at once.',fact:'RAM is around 100,000 times faster than a spinning hard drive.',task:'Paint RAM, cut the power, see what survives.'},
+    {g:'B',id:'storage',tag:'STORAGE',title:'Storage',blurb:'Remembers when the power is off.',what:'Storage keeps files with the power off. Hard drives spin a metal disk. SSDs use memory chips with no moving parts, so they are much quicker.',analogy:'a filing cabinet in the basement.',fact:'The first hard drive (1956) weighed over a tonne and held 5 MB.',task:'Race a hard drive against an SSD.'},
+    {g:'B',id:'board',tag:'BOARD',title:'Motherboard',blurb:'Where every part plugs in.',what:'The motherboard is the big circuit board every part plugs into. Copper wires inside it let the parts talk.',analogy:'a city map where roads join every building.',fact:'Some boards hide over 10 layers of copper wiring.',task:'Match each part to its socket.'},
+    {g:'B',id:'gpu',tag:'GPU',title:'Graphics card',blurb:'Paints thousands of pixels at once.',what:'A GPU has thousands of small workers that colour lots of pixels at the same time. Games and video love it.',analogy:'a classroom of kids all colouring at once.',fact:'A 4K screen has about 8 million pixels, redrawn 60 times a second.',task:'Paint by hand, then let the GPU do it.'},
+    {g:'B',id:'psu',tag:'PSU',title:'Power supply',blurb:'Feeds every part safely.',what:'The power supply turns wall electricity into gentle voltages parts can use. Its strength is measured in watts.',analogy:'a water tank sized for every tap in the house.',fact:'Power supplies like to stay below about 80% load.',task:'Switch parts on. Does your supply cope?'},
+    {g:'B',id:'cooling',tag:'COOLING',title:'Cooling',blurb:'Keeps chips from cooking.',what:'Working chips get hot. Fans and heatsinks carry the heat away. Too hot, and a chip slows itself down to stay safe.',analogy:'sweating while running, plus a breeze to help.',fact:'Some chips reach 100 degrees C, hotter than boiling water.',task:'Raise the workload, then the fan.'},
+    {g:'B',id:'io',tag:'INPUT / OUTPUT',title:'Input & output',blurb:'How you talk to the machine.',what:'Input devices send information in. Output devices show it to you. A few do both.',analogy:'the computer\'s ears and mouth.',fact:'The first computer mouse was carved from wood.',task:'Is each device input, output or both?'},
+    {g:'B',id:'os',tag:'OS',title:'Operating system',blurb:'Kernel, system calls and scheduling.',what:'The OS is the manager that shares the CPU, memory and devices between apps so they do not trample each other. Its core, the kernel, is the only code allowed to touch hardware. Apps ask it for help through system calls.',analogy:'a school principal: teachers (apps) ask the office (kernel) for rooms, books and time slots, and never grab them directly.',fact:'Linux runs phones, supercomputers and most websites. A busy server makes millions of system calls every second.',task:'Use the three tabs: apps sharing RAM, a system call step by step, and the scheduler.',more:[['The kernel','The always-running core of the OS. It owns every device, decides who gets what, and stays protected from the apps it serves.'],['Two modes','The CPU has user mode (limited, for apps) and kernel mode (allowed to do anything). The hardware itself enforces the line, so a buggy app cannot wreck the machine.'],['System calls','The only doorway from an app into the kernel. The app puts a number and arguments in registers, runs a special instruction, and the CPU hops into the kernel in kernel mode. Examples: open, read, write, send, mmap, fork.'],['Processes and scheduling','Each running program is a process with its own private view of memory. The scheduler gives each a short time slice, a few milliseconds, then does a context switch: save one process\'s registers, load another\'s. It feels simultaneous, but one core runs one process at a time.'],['Virtual memory','Every process believes it owns all of memory. The OS maps those pretend addresses to real RAM pages with page tables, and parks rarely used pages on disk when RAM fills up.'],['Drivers and files','Drivers turn general requests ("write these bytes") into the exact commands one chip understands. The file system turns names like report.txt into blocks on the drive.']]},
+    {g:'B',id:'net',tag:'NETWORK',title:'Networking',blurb:'Parcels of data across the world.',what:'Networks carry small packets of data between computers, hopping through routers until they arrive.',analogy:'posting a parcel through sorting offices.',fact:'Messages cross oceans through cables on the sea floor.',task:'Send a message to a server and back.'}
+  ];
+  W = [
+    {id:'ground',tag:'FULL COURSE',title:'Ground Up Computing',blurb:'The complete guided course: chapters, live demos, a picture book and a circuit workshop where you build chips from scratch.'},
+    {id:'key',tag:'SCENARIO',title:'Press a key',blurb:'Follow one keystroke through the machine.'},
+    {id:'web',tag:'SCENARIO',title:'Open a website',blurb:'OS, network, CPU and GPU working as a team.'},
+    {id:'game',tag:'SCENARIO',title:'Play a game',blurb:'See which parts wake up on Play.'},
+    {id:'boot',tag:'SCENARIO',title:'Boot up',blurb:'Power button to desktop, step by step.'},
+    {id:'build',tag:'BUILD',title:'Build your PC',blurb:'Drag in parts, mind the budget, power on.'},
+    {id:'quiz',tag:'QUIZ',title:'Test yourself',blurb:'Ten questions from transistors to networks.'},
+    {id:'words',tag:'GLOSSARY',title:'Word list',blurb:'Look up any term fast.'}
+  ];
+  CHL = {BITS:'Bits',GATES:'Gates',CPU:'CPU',RAM:'RAM',STORAGE:'Storage',BOARD:'Board',GPU:'GPU',PSU:'PSU',COOLING:'Cooling',IO:'Input/Output',OS:'OS',NET:'Network'};
+  SC = {
+    key:{title:'Press a key',intro:'You press "A". How does the letter appear? Step through and watch the parts light up.',steps:[
+      ['You press a key','The key closes a tiny switch under it.',['IO']],
+      ['A code is sent','A chip in the keyboard turns the press into the number 65 (01000001) and sends it down the cable.',['IO','BITS']],
+      ['The board delivers it','Copper wires on the board carry the signal to the CPU. The power supply keeps it all alive.',['BOARD','CPU','PSU']],
+      ['The OS takes charge','The operating system sees which app is in front and hands the key over.',['OS','RAM']],
+      ['The app decides','The app asks the CPU to add the letter to the text held in RAM.',['CPU','RAM']],
+      ['Graphics draws it','The GPU turns the letter into pixels and sends them to the screen. There it is.',['GPU','IO']]]},
+    web:{title:'Open a website',intro:'You type an address and press Enter. Almost every unit takes part.',steps:[
+      ['You press Enter','The keyboard sends the press in. The OS gives it to your browser.',['IO','OS']],
+      ['Find the address','The browser asks a directory service which number-address belongs to the name.',['OS','NET']],
+      ['Packets leave','Your request is split into packets. They hop through your router and your internet provider.',['NET']],
+      ['The server answers','A far-away computer finds the page and sends it back as packets.',['NET']],
+      ['Put it together','Packets arrive out of order. The OS gathers them in RAM and the CPU rebuilds the page.',['OS','RAM','CPU']],
+      ['Draw the page','The GPU paints text and images. Pixels reach your screen.',['GPU','IO']],
+      ['Keep a copy','The browser saves pictures on the SSD so the next visit is faster.',['STORAGE']]]},
+    game:{title:'Play a game',intro:'You click Play. A whole orchestra starts. Step through who does what.',steps:[
+      ['You click Play','The click goes to the OS, which launches the game.',['IO','OS']],
+      ['Load from storage','Game files are copied from the SSD into RAM, where they can be reached fast.',['STORAGE','RAM']],
+      ['The CPU runs the rules','Where is the player? Did the ball hit the wall? The CPU decides, 60 times a second.',['CPU','RAM']],
+      ['The GPU draws each frame','The GPU paints millions of pixels for every frame.',['GPU','RAM']],
+      ['Heat and power','Hard work means heat and a hungry power supply. Fans spin up.',['PSU','COOLING']],
+      ['Playing online?','Your moves travel as packets to a server and back.',['NET']],
+      ['Screen and sound','Frames reach your monitor and speakers.',['IO']]]},
+    boot:{title:'Boot up',intro:'You press the power button. What happens before the desktop shows?',steps:[
+      ['Power button','The power supply sends electricity to the board and wakes the parts.',['PSU']],
+      ['Self-test','The board checks that the CPU, memory and graphics are present and healthy.',['BOARD','CPU','RAM']],
+      ['Find a drive','A tiny built-in program (the BIOS) looks for a drive holding an operating system.',['BOARD','STORAGE']],
+      ['Load the OS','The operating system is copied from storage into RAM.',['STORAGE','RAM','OS']],
+      ['Start the helpers','The OS starts background programs. Fans match the workload.',['OS','CPU','COOLING']],
+      ['Desktop appears','The GPU draws the desktop. Mouse and keyboard come alive.',['GPU','IO','OS']],
+      ['Network connects','Wi-Fi joins and the machine is online.',['NET']]]}
+  };
+  PARTS = [
+    {id:'ca1',slot:'case',label:'Mini case',price:45,w:0,note:'tiny, cramped',shell:'#8FA6E8',size:1},
+    {id:'ca2',slot:'case',label:'Mid tower',price:70,w:0,note:'roomy, mesh front',shell:'#C9C2B0',size:2},
+    {id:'ca3',slot:'case',label:'Glass RGB tower',price:120,w:0,note:'airy, glass, lights',shell:'#2A2720',size:3,glass:1,rgb:1},
+    {id:'b1',slot:'board',label:'Board S1',price:90,w:10,note:'socket S1',sk:'S1',fill:'#6FD8B0'},
+    {id:'b2',slot:'board',label:'Board S2',price:120,w:10,note:'socket S2',sk:'S2',fill:'#B39BFF'},
+    {id:'b3',slot:'board',label:'Board S2 Pro',price:170,w:12,note:'socket S2, big heatsinks',sk:'S2',fill:'#FF9CC2'},
+    {id:'c1',slot:'cpu',label:'4-core CPU',price:120,w:65,note:'socket S1',sk:'S1',perf:30,heat:1,cores:4},
+    {id:'c2',slot:'cpu',label:'8-core CPU',price:220,w:95,note:'socket S1',sk:'S1',perf:55,heat:2,cores:8},
+    {id:'c3',slot:'cpu',label:'8-core CPU',price:240,w:95,note:'socket S2',sk:'S2',perf:55,heat:2,cores:8},
+    {id:'c4',slot:'cpu',label:'12-core CPU',price:320,w:125,note:'socket S2, hot',sk:'S2',perf:75,heat:3,cores:12},
+    {id:'k1',slot:'cooler',label:'Stock cooler',price:0,w:5,note:'basic',cool:1},
+    {id:'k2',slot:'cooler',label:'Tower cooler',price:40,w:8,note:'good',cool:2},
+    {id:'k3',slot:'cooler',label:'Liquid cooler',price:100,w:20,note:'great',cool:3},
+    {id:'r1',slot:'ram',label:'8 GB RAM',price:30,w:5,note:'1 stick',perf:5,n:1,fill:'#5CB8FF'},
+    {id:'r2',slot:'ram',label:'16 GB RAM',price:55,w:5,note:'2 sticks',perf:12,n:2,fill:'#6DBBFF'},
+    {id:'r3',slot:'ram',label:'32 GB RAM',price:100,w:6,note:'2 big sticks',perf:20,n:2,fill:'#B39BFF'},
+    {id:'r4',slot:'ram',label:'64 GB RAM',price:190,w:10,note:'4 sticks',perf:26,n:4,fill:'#FF9CC2'},
+    {id:'s1',slot:'storage',label:'1 TB HDD',price:35,w:8,note:'spinning, slow',perf:3,boot:40},
+    {id:'s2',slot:'storage',label:'500 GB SSD',price:55,w:4,note:'fast',perf:10,boot:12},
+    {id:'s3',slot:'storage',label:'1 TB NVMe',price:90,w:5,note:'faster, heatsink',perf:12,boot:9},
+    {id:'s4',slot:'storage',label:'2 TB NVMe',price:140,w:6,note:'fastest, heatsink',perf:14,boot:7},
+    {id:'g0',slot:'gpu',label:'Integrated',price:0,w:0,note:'built-in',perf:2},
+    {id:'g1',slot:'gpu',label:'Mid GPU',price:250,w:150,note:'smooth games',perf:30,len:330,fill:'#FF8A6B'},
+    {id:'g2',slot:'gpu',label:'High GPU',price:500,w:300,note:'ultra, very long',perf:55,len:440,fill:'#B39BFF'},
+    {id:'p1',slot:'psu',label:'350 W PSU',price:40,w:350,note:'small',fill:'#C9C2B0'},
+    {id:'p2',slot:'psu',label:'550 W PSU',price:65,w:550,note:'medium',fill:'#E8C766'},
+    {id:'p3',slot:'psu',label:'850 W PSU',price:110,w:850,note:'big',fill:'#FFD046'},
+    {id:'f0',slot:'fans',label:'No extra fans',price:0,w:0,note:'warm air stays',n:0,cool:0},
+    {id:'f1',slot:'fans',label:'2 case fans',price:20,w:6,note:'steady airflow',n:2,cool:0.5},
+    {id:'f2',slot:'fans',label:'3 RGB fans',price:45,w:12,note:'best airflow, lights',n:3,cool:1,rgb:1}
+  ];
+  SLOTS = [['case','Case','Start with the case: it decides how much fits and how well air flows. Tiny cases are cheap but cramped.'],['board','Motherboard','Every part plugs into the board. Its socket (S1 or S2) decides which CPU fits.'],['cpu','CPU','The brain. Its socket must match the board.'],['cooler','Cooler','Strong CPUs run hot and want stronger coolers.'],['ram','Memory','More RAM is a bigger desk. Two sticks work better than one.'],['storage','Storage','NVMe and SSDs load things far faster than hard drives.'],['gpu','Graphics','Integrated is free. A GPU makes games smooth but is long and hungry.'],['psu','Power supply','Add up the watts and pick a supply that covers them.'],['fans','Case fans','Fans pull cool air in and push hot air out.']];
+  QZ = [
+    ['What is a transistor?',['A tiny electric switch','A kind of fan','A storage drive'],0],
+    ['An AND gate outputs ON when...',['Either input is ON','Both inputs are ON','No input is ON'],1],
+    ['In binary addition, which gate gives the carry?',['AND','NOT','OR'],0],
+    ['What does a register do?',['Cools the CPU','Holds a value inside the CPU','Draws pixels'],1],
+    ['What happens to RAM when power goes off?',['It is wiped','It is saved','It doubles'],0],
+    ['Which is usually faster, SSD or HDD?',['HDD','SSD','Same'],1],
+    ['What does the motherboard do?',['Draws graphics','Makes power','Connects every part'],2],
+    ['What happens if a chip gets too hot?',['It speeds up','It slows itself down','Nothing'],1],
+    ['A webcam is an...',['Output device','Input device','Operating system'],1],
+    ['A packet travels from your PC to a server via...',['A router','A speaker','A fan'],0]
+  ];
+  GL = [['Bit','One ON/OFF switch. A 1 or a 0.'],['Byte','Eight bits. Enough for one letter.'],['Transistor','A tiny switch controlled by electricity.'],['Logic gate','A few transistors that answer a yes/no question.'],['Register','A few bits of memory inside the CPU.'],['Clock','A steady pulse that tells the CPU when to step.'],['CPU','The processor. Runs instructions.'],['Core','One worker inside a CPU.'],['RAM','Fast short-term memory. Wiped when power is off.'],['SSD','Storage with no moving parts. Fast.'],['HDD','Storage with a spinning disk. Slower, cheaper.'],['Motherboard','The main circuit board all parts plug into.'],['GPU','Graphics processor. Paints pixels quickly.'],['PSU','Power supply unit. Feeds parts with safe power.'],['Watt','A unit of power.'],['Heatsink','Metal that pulls heat away from a chip.'],['OS','Operating system. Manages apps and hardware.'],['Router','A box that sends packets toward their destination.'],['Packet','A small chunk of data sent over a network.'],['BIOS','Tiny program that wakes the computer and finds the OS.'],['Pixel','One dot on a screen.']];
+  EVO = [['1940s','Vacuum tubes','Room-sized and hot. ENIAC used about 18,000 tubes and they often burned out.',18000,'100%'],['1947','The transistor','Bell Labs makes a solid switch. No heat, no glass, no burnout.',1,'60%'],['1958','Integrated circuit','Many transistors etched together on one slice of silicon.',20,'35%'],['1971','Microprocessor','Intel 4004: a whole CPU on one chip with 2,300 transistors.',2300,'18%'],['1981','Personal computer','Chips get cheap enough for desks and homes.',29000,'12%'],['2007','Smartphone','A computer in your pocket, with a touchscreen and the internet.',100000000,'6%'],['Today','Billions on a chip','Chips hold over 10 billion transistors, each a few nanometres wide.',16000000000,'2%']];
+  IO = [['Keyboard','i'],['Monitor','o'],['Mouse','i'],['Speakers','o'],['Microphone','i'],['Touchscreen','b'],['Printer','o'],['Webcam','i'],['Headset with mic','b'],['Gamepad','i']];
+  PSUP = [['cpu','CPU',95],['gpu','Graphics card',220],['ram','RAM',10],['ssd','Drives',10],['fans','Fans',15],['rgb','Light show',25]];
+  OSA = [['Browser',300],['Game',450],['Music',120],['Editor',200],['Chat',100]];
+  NETN = ['You','Router','ISP','Backbone','Server'];
+  NETS = [0,1,2,3,4,3,2,1,0];
+  NETT = ['Your message is chopped into packets. One leaves your computer.','The home router looks at the address and passes it on.','Your internet provider sends it toward the right region.','Long cables carry it across cities, or under the sea.','The server reads the request and builds a reply.','The reply starts its journey home.','The provider passes it back.','The router hands it to your device.','Packets are reassembled in RAM. You see the page.'];
+
+  componentDidMount(){ try{ this.setState({done:JSON.parse(localStorage.getItem('zb-done')||'{}')}); }catch(e){} }
+  componentWillUnmount(){ clearInterval(this.iv); }
+
+  beep(f,d=0.09){ if(!this.state.sound) return; try{ const A=this.ac||(this.ac=new (window.AudioContext||window.webkitAudioContext)()); const o=A.createOscillator(),g=A.createGain(); o.type='square'; o.frequency.value=f; g.gain.value=0.04; o.connect(g); g.connect(A.destination); o.start(); o.stop(A.currentTime+d);}catch(e){} }
+  open(v,say){ this.setState({view:v,say:say||'Have fun!',scN:0,qi:0,qs:0,qpick:null}); this.beep(660); }
+  home=()=>this.setState({view:'home',say:"Hi, I'm Kiko! Pick something and poke it."});
+  confetti(){ try{ const cols=['#FF8A6B','#FFD046','#6FD8B0','#6DBBFF','#B39BFF','#FF9CC2']; for(let i=0;i<46;i++){ const e=document.createElement('i'); const sz=6+Math.random()*9; e.style.cssText='position:fixed;z-index:9999;pointer-events:none;left:'+(innerWidth/2)+'px;top:'+(innerHeight*0.45)+'px;width:'+sz+'px;height:'+sz*(Math.random()>.5?1:.5)+'px;background:'+cols[i%6]+';border:1.5px solid #0B0A08;border-radius:'+(Math.random()>.6?'50%':'2px'); document.body.appendChild(e); const a=Math.random()*Math.PI*2,d=140+Math.random()*320; e.animate([{transform:'translate(0,0) rotate(0)',opacity:1},{transform:'translate('+Math.cos(a)*d+'px,'+(Math.sin(a)*d+160)+'px) rotate('+(Math.random()*720-360)+'deg)',opacity:0}],{duration:900+Math.random()*700,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=()=>e.remove(); } }catch(x){} }
+  say(t){ this.setState({say:t}); }
+
+  blk(o){ const b={label:'',lines:[],chips:[],cells:[],cols:8,gap:'6px',maxw:'420px',sliders:[],meters:[],reads:[],btns:[],msg:'',...o};
+    b.hasLabel=!!b.label;b.hasLines=b.lines.length>0;b.hasChips=b.chips.length>0;b.hasCells=b.cells.length>0;b.hasSliders=b.sliders.length>0;b.hasMeters=b.meters.length>0;b.hasReads=b.reads.length>0;b.hasBtns=b.btns.length>0;b.hasMsg=!!b.msg;return b; }
+
+  toggleCells(arr,key,onC='#C8A24B'){ return arr.map((v,i)=>({t:v,c:v?onC:'#F5F1E8',go:()=>{const n=this.state[key].slice();n[i]^=1;this.setState({[key]:n});this.beep(n[i]?880:440,0.06);}})); }
+
+  toy(v){
+    const s=this.state, B=x=>this.blk(x), self=this; const bg=(on,c='#C8A24B')=>on?c:'#FBF8EE'; const noop=()=>{};
+    const bin=a=>a.reduce((x,y)=>x*2+y,0);
+    if(v==='bits'){
+      const n=bin(s.bits); const setN=m=>()=>{this.setState({bits:[...m.toString(2).padStart(8,'0')].map(Number),say:'Ha, '+m+' means "'+String.fromCharCode(m)+'".'});this.beep(740);};
+      return [B({label:'Flip the 8 switches (128 64 32 16 8 4 2 1)',cells:this.toggleCells(s.bits,'bits'),maxw:'460px'}),
+        B({reads:[{k:'NUMBER',v:n},{k:'LETTER (ASCII)',v:n===32?'space':(n>32&&n<127)?String.fromCharCode(n):'?'}],btns:[{t:'Make "A"',go:setN(65),bg:'#CFE2F3'},{t:'Make "z"',go:setN(122),bg:'#CFE2F3'},{t:'Reset',go:()=>this.setState({bits:Array(8).fill(0)}),bg:'#FBF8EE'}]})];
+    }
+    if(v==='trans'){
+      const on=s.tg;
+      return [B({label:'Battery -> transistor -> lamp',lines:[{t:'Gate signal: '+(on?'ON':'OFF'),bg:bg(on,'#E8C766')},{t:'Switch inside: '+(on?'CLOSED, current flows':'OPEN, blocked'),bg:bg(on,'#E8C766')},{t:'Lamp: '+(on?'LIT':'dark'),bg:on?'#E8C766':'#F5F1E8'}],
+        btns:[{t:on?'Turn gate off':'Turn gate on',go:()=>{this.setState({tg:on?0:1});this.beep(on?300:900);},bg:'#C8A24B'}],
+        msg:on?'A tiny signal controlled a bigger flow. Chain these and you can compute.':'Nothing passes. The gate is the only thing you control.'}),
+        B({label:'How many fit on one chip?',meters:[{t:'Transistors on a modern CPU: about 10,000,000,000',col:'#3B8FD6',pct:'100%'},{t:'The 1971 Intel 4004: 2,300',col:'#C8A24B',pct:'1%'}]})];
+    }
+    if(v==='gates'){
+      const m=s.gm, A=s.gA, Bv=s.gB; const f={AND:(a,b)=>a&b,OR:(a,b)=>a|b,NOT:a=>a?0:1,XOR:(a,b)=>a^b,NAND:(a,b)=>(a&b)?0:1};
+      const out=f[m](A,Bv); const rows=m==='NOT'?[[0],[1]]:[[0,0],[0,1],[1,0],[1,1]];
+      return [B({label:'Gate',chips:Object.keys(f).map(k=>({t:k,bg:bg(m===k),op:1,go:()=>this.setState({gm:k})}))}),
+        B({label:'Inputs (tap to flip)',chips:[{t:'A = '+A,bg:bg(A,'#CFE2F3'),op:1,go:()=>{this.setState({gA:A?0:1});this.beep(600,0.05);}}].concat(m==='NOT'?[]:[{t:'B = '+Bv,bg:bg(Bv,'#CFE2F3'),op:1,go:()=>{this.setState({gB:Bv?0:1});this.beep(600,0.05);}}]),reads:[{k:'OUTPUT',v:out}]}),
+        B({label:'Truth table',lines:rows.map(r=>({t:(m==='NOT'?'A='+r[0]:'A='+r[0]+' B='+r[1])+'  ->  '+f[m](r[0],r[1]),bg:(m==='NOT'?r[0]===A:(r[0]===A&&r[1]===Bv))?'#E8C766':'#F5F1E8'}))})];
+    }
+    if(v==='adder'){
+      const a=bin(s.adA), b=bin(s.adB), sum=a+b;
+      return [B({label:'Number A (4 2 1)',cells:this.toggleCells(s.adA,'adA'),cols:3,maxw:'200px'}),B({label:'Number B (4 2 1)',cells:this.toggleCells(s.adB,'adB','#3B8FD6'),cols:3,maxw:'200px'}),
+        B({reads:[{k:'A + B',v:a+' + '+b},{k:'SUM (binary)',v:sum.toString(2).padStart(4,'0')},{k:'SUM',v:sum}],msg:'Each column: XOR gives the sum bit, AND gives the carry into the next column. '+((s.adA[2]&s.adB[2])?'Look: both lowest bits are 1, so a carry ripples left.':'Try making both lowest bits 1 to see a carry.')})];
+    }
+    if(v==='reg'){
+      return [B({label:'Input bits (tap to set)',cells:this.toggleCells(s.rIn,'rIn'),cols:4,maxw:'260px'}),
+        B({btns:[{t:'Clock pulse: store',go:()=>{this.setState({reg:s.rIn.slice(),say:'Stored! The register keeps it until the next pulse.'});this.beep(800);},bg:'#C8A24B'},{t:'Clear',go:()=>this.setState({reg:[0,0,0,0]}),bg:'#FBF8EE'}]}),
+        B({label:'Register (what is remembered)',cells:s.reg.map(x=>({t:x,c:x?'#E8C766':'#E8E1CF',go:noop})),cols:4,maxw:'260px',reads:[{k:'STORED VALUE',v:bin(s.reg)}],msg:'Change the input now. The register does not change until you send a pulse.'})];
+    }
+    if(v==='evo'){
+      const e=this.EVO[s.evo];
+      return [B({label:'Pick an era',chips:this.EVO.map((x,i)=>({t:x[0],bg:bg(s.evo===i),op:1,go:()=>{this.setState({evo:i});this.beep(400+i*80);}}))}),
+        B({reads:[{k:e[0],v:e[1]},{k:'SWITCHES',v:e[3].toLocaleString('en-US')}],meters:[{t:'Size of one switch (relative)',col:'#B5483A',pct:e[4]}],msg:e[2]})];
+    }
+    if(v==='cpu'){
+      const prog=[['LOAD 5',a=>5],['ADD 3',a=>a+3],['TIMES 2',a=>a*2],['SHOW IT',a=>a]];
+      const exec=Math.floor(s.cpuN/3); let acc=0; for(let i=0;i<exec&&i<4;i++)acc=prog[i][1](acc); const fin=s.cpuN>=12,nx=Math.min(exec,3);
+      return [B({lines:prog.map((p,i)=>({t:(i+1)+'. '+p[0],bg:(!fin&&i===nx)?'#E8C766':'#F5F1E8'}))}),
+        B({chips:['1 Fetch','2 Decode','3 Execute'].map((n,i)=>({t:n,bg:(s.cpuN>0&&!fin&&((s.cpuN-1)%3)===i)?'#3B8FD6':'#F5F1E8',op:1,go:noop})),reads:[{k:'ACCUMULATOR (a register)',v:acc}],
+          btns:[{t:'Tick',go:()=>{if(s.cpuN<12){this.setState({cpuN:s.cpuN+1});this.beep(500+s.cpuN*40,0.05);}},bg:'#C8A24B'},{t:'Reset',go:()=>this.setState({cpuN:0}),bg:'#FBF8EE'}],
+          msg:fin?'Done: 5+3=8, doubled is 16. Real CPUs do this billions of times a second.':s.cpuN===0?'Press Tick to begin.':'Tick '+s.cpuN+' of 12.'})];
+    }
+    if(v==='ram'){
+      const pal=['#E8C766','#3B8FD6','#B5483A','#0B0A08'];
+      return [B({label:'Colour to store',chips:pal.map(c=>({t:s.ramC===c?'[x]':'[ ]',bg:c,op:1,go:()=>this.setState({ramC:c})}))}),
+        B({label:'RAM (fast, forgetful): tap cells',cells:s.ram.map((c,i)=>({t:'',c:c||'#F5F1E8',go:()=>{const n=s.ram.slice();n[i]=s.ramC;this.setState({ram:n});this.beep(500,0.05);}})),maxw:'380px'}),
+        B({label:'Disk (slower, remembers)',cells:s.disk.map(c=>({t:'',c:c||'#F5F1E8',go:noop})),maxw:'380px',
+          btns:[{t:'Save to disk',go:()=>{this.setState({disk:s.ram.slice(),say:'Saved! Disk keeps it safe.'});this.beep(700);},bg:'#CFE2F3'},{t:'Cut power',go:()=>{this.setState({ram:Array(8).fill(null),say:'Poof! RAM forgot. The disk did not.'});this.beep(150,0.3);},bg:'#E8A598'},{t:'Load from disk',go:()=>{this.setState({ram:s.disk.slice()});this.beep(800);},bg:'#F2E4BE'}]})];
+    }
+    if(v==='storage'){
+      return [B({meters:[{t:'Hard drive (spinning disk)',col:'#A8A192',pct:s.hdd+'%'},{t:'SSD (memory chips)',col:'#3B8FD6',pct:s.ssd+'%'}],btns:[{t:'Load the game!',bg:'#C8A24B',go:()=>{clearInterval(this.iv);this.setState({hdd:0,ssd:0,raceMsg:'Loading...'});this.iv=setInterval(()=>{const t=this.state;const h=Math.min(100,t.hdd+0.9),d=Math.min(100,t.ssd+4.5);let m=t.raceMsg;if(d>=100&&h<100)m='SSD done first. The HDD is still spinning.';if(h>=100){m='Both done. The SSD won by a mile.';clearInterval(this.iv);}this.setState({hdd:h,ssd:d,raceMsg:m});},50);}}],msg:s.raceMsg})];
+    }
+    if(v==='board'){
+      const bp=[['CPU','Square socket'],['RAM','Long slots'],['GPU','Long PCIe slot'],['SSD','Small M.2 slot'],['PSU','24-pin power plug']];
+      return [B({label:'Parts',chips:bp.map((p,i)=>({t:p[0],bg:s.bsel===i?'#E8C766':'#FBF8EE',op:s.bmatch[i]?0.35:1,go:()=>{if(!s.bmatch[i])this.setState({bsel:i,bMsg:'Now tap its socket.'});}}))}),
+        B({label:'Sockets',chips:[2,0,4,1,3].map(i=>({t:bp[i][1]+(s.bmatch[i]?'  <-  '+bp[i][0]:''),bg:s.bmatch[i]?'#CFE2F3':'#F5F1E8',op:1,go:()=>{if(s.bsel===null){this.setState({bMsg:'Pick a part first.'});return;}if(s.bsel===i){const m={...s.bmatch,[i]:1};this.setState({bmatch:m,bsel:null,bMsg:Object.keys(m).length===5?'All plugged in! The board links everything.':'Click! Next one.'});this.beep(800);}else{this.setState({bMsg:'That does not fit. Try another socket.'});this.beep(160,0.2);}}})),
+          btns:[{t:'Reset',go:()=>this.setState({bmatch:{},bsel:null,bMsg:'Tap a part, then its socket.'}),bg:'#FBF8EE'}],msg:s.bMsg})];
+    }
+    if(v==='gpu'){
+      const pal=['#C8A24B','#3B8FD6','#B5483A','#0B0A08'];
+      return [B({label:'Brush',chips:pal.map(c=>({t:s.gpuC===c?'[x]':'[ ]',bg:c,op:1,go:()=>this.setState({gpuC:c})}))}),
+        B({cells:s.gpu.map((c,i)=>({t:'',c:c||'#F5F1E8',go:()=>{const n=s.gpu.slice();n[i]=s.gpuC;this.setState({gpu:n});this.beep(500,0.04);}})),gap:'2px',maxw:'320px',
+          btns:[{t:'GPU: paint it all',bg:'#C8A24B',go:()=>{const n=s.gpu.slice();[...Array(64).keys()].forEach(i=>{if(this.HEART[i])n[i]='#B5483A'});this.setState({gpu:n,gpuMsg:'64 pixels in one go. A real GPU does millions at once.'});this.beep(900);}},{t:'Clear',go:()=>this.setState({gpu:Array(64).fill(null),gpuMsg:'Click squares to paint.'}),bg:'#FBF8EE'}],msg:s.gpuMsg})];
+    }
+    if(v==='psu'){
+      const use=this.PSUP.reduce((a,p)=>a+(s.psuOn[p[0]]?p[2]:0),0)+30, sz=s.psuSize, r=use/sz;
+      return [B({label:'Parts switched on',chips:this.PSUP.map(p=>({t:p[1]+' '+p[2]+'W',bg:bg(s.psuOn[p[0]]),op:1,go:()=>this.setState({psuOn:{...s.psuOn,[p[0]]:s.psuOn[p[0]]?0:1}})}))}),
+        B({label:'Power supply size',chips:[250,450,650].map(w=>({t:w+'W',bg:bg(sz===w,'#CFE2F3'),op:1,go:()=>this.setState({psuSize:w})}))}),
+        B({meters:[{t:use+' W of '+sz+' W',col:r>1?'#B5483A':r>0.8?'#C8A24B':'#3B8FD6',pct:Math.min(100,r*100)+'%'}],msg:r>1?'Overload! The PC would shut off.':r>0.8?'Works, but running hot. Pick a bigger supply for safety.':'Comfortable. Room to grow.'})];
+    }
+    if(v==='cooling'){
+      const temp=Math.round(25+s.load*0.25+s.load*0.6*(1-s.fan*0.008)), sp=temp>90?Math.max(40,Math.round(100-(temp-90)*3)):100;
+      return [B({sliders:[{t:'Workload',v:s.load,set:e=>this.setState({load:+e.target.value})},{t:'Fan speed',v:s.fan,set:e=>this.setState({fan:+e.target.value})}]}),
+        B({meters:[{t:'Temperature',col:temp>90?'#B5483A':temp>70?'#C8A24B':'#3B8FD6',pct:Math.min(100,temp/1.1)+'%'}],reads:[{k:'TEMP',v:temp+'\u00B0C'},{k:'SPEED',v:sp+'%'}],msg:temp>90?'Too hot! The chip slows itself down to survive.':temp>70?'Warm. A faster fan would help.':'Cool and happy.'})];
+    }
+    if(v==='io'){
+      const d=this.IO[s.ioI%this.IO.length], fin=s.ioI>=this.IO.length;
+      const ans=k=>()=>{const ok=d[1]===k;this.setState({ioScore:s.ioScore+(ok?1:0),ioI:s.ioI+1,ioMsg:ok?'Right!':'Not quite. A '+d[0].toLowerCase()+' is '+({i:'input',o:'output',b:'both'})[d[1]]+'.'});this.beep(ok?900:200,0.12);};
+      if(fin) return [B({reads:[{k:'SCORE',v:s.ioScore+' / '+this.IO.length}],btns:[{t:'Play again',bg:'#C8A24B',go:()=>this.setState({ioI:0,ioScore:0,ioMsg:''})}]})];
+      return [B({reads:[{k:'DEVICE '+(s.ioI+1)+' OF '+this.IO.length,v:d[0]}],chips:[{t:'Input',bg:'#CFE2F3',op:1,go:ans('i')},{t:'Output',bg:'#F2E4BE',op:1,go:ans('o')},{t:'Both',bg:'#FBF8EE',op:1,go:ans('b')}],msg:s.ioMsg||'Which is it?'})];
+    }
+    if(v==='os'){
+      const tabs=B({chips:[['apps','Apps & RAM'],['calls','System calls'],['sched','Scheduler']].map(t=>({t:t[1],bg:bg(s.osTab===t[0],'#FFD046'),op:1,go:()=>this.setState({osTab:t[0]})}))});
+      if(s.osTab==='apps'){
+        const use=150+this.OSA.reduce((a,p)=>a+(s.osRun[p[0]]?p[1]:0),0), r=use/1000;
+        return [tabs,B({label:'Open apps (1000 MB of RAM total)',chips:this.OSA.map(p=>({t:p[0]+' '+p[1]+'MB',bg:bg(s.osRun[p[0]]),op:1,go:()=>this.setState({osRun:{...s.osRun,[p[0]]:s.osRun[p[0]]?0:1}})}))}),
+          B({meters:[{t:use+' MB used (150 MB is the OS itself)',col:r>1?'#B5483A':r>0.8?'#C8A24B':'#3B8FD6',pct:Math.min(100,r*100)+'%'}],msg:r>1?'Out of RAM! The OS parks things on the slow disk (swapping) and everything crawls.':'The OS keeps each app in its own space, hands out RAM, and gives each a slice of CPU time.'})];
+      }
+      if(s.osTab==='calls'){
+        const AC=[['Open a file','open()',2,'The file system finds the file on the SSD and the kernel makes a handle for it','a file handle, a small number like 3'],['Print to the screen','write()',1,'The terminal driver hands the letters to the graphics system, which draws them','how many bytes were written'],['Send a message online','send()',44,'The network driver gives packets to the Wi-Fi chip to broadcast','how many bytes were sent'],['Ask for more memory','mmap()',9,'The memory manager finds free pages of RAM and maps them into your app\'s address space','the address of your new memory'],['Start another program','fork()',57,'The scheduler makes a new process with its own address space','the new process id (PID)'],['Touch the hardware directly','(none)',0,'','']];
+        const ac=AC[s.osCall], bad=s.osCall===5;
+        const st=bad?[['App tries directly','The app tries to write to the disk controller itself, using a privileged instruction.','u'],['CPU says no','In user mode the CPU refuses privileged instructions and raises a protection fault.','k'],['Kernel handler runs','The fault jumps into the kernel, which sees an app breaking the rules.','k'],['App is stopped','The kernel ends the app. You might see "not responding". Everything else keeps running safely.','k'],['Back to normal','The scheduler picks another process. This is why one crashed app does not take the whole computer down.','u']]
+        :[['App asks','Your app wants to '+ac[0].toLowerCase()+'. Apps run in user mode and cannot touch hardware, so they call the library function '+ac[1]+'.','u'],['Library prepares','The library wrapper puts syscall number '+ac[2]+' and the arguments into CPU registers.','u'],['SYSCALL instruction','The app runs the special SYSCALL instruction. The CPU saves the app\'s place and jumps to a fixed entry point that the kernel set up at boot.','u'],['Switch to kernel mode','The CPU flips from user mode to kernel mode. Privileged instructions are now allowed. This switch is the doorway.','k'],['Kernel checks','The kernel looks up number '+ac[2]+' in its system call table, then checks the arguments and your permissions.','k'],['Kernel does the work',ac[3]+'.','k'],['Return to the app','The kernel stores the result ('+ac[4]+') in a register, flips back to user mode and resumes the app right after SYSCALL.','u']];
+        const i=Math.min(s.osStep,st.length-1), kern=st[i][2]==='k';
+        return [tabs,B({label:'What does the app want?',chips:AC.map((a,j)=>({t:a[0],bg:bg(s.osCall===j,j===5?'#FF9C8A':'#6DBBFF'),op:1,go:()=>this.setState({osCall:j,osStep:0})}))}),
+          B({reads:[{k:'CPU MODE',v:kern?'KERNEL':'USER'},{k:'SYSCALL #',v:bad?'-':ac[2]},{k:'FUNCTION',v:bad?'blocked':ac[1]}],
+            lines:st.map((t,j)=>({t:(j+1)+'. ['+(t[2]==='k'?'kernel':'user')+'] '+t[0],bg:j===i?(kern?'#FFD046':'#6DBBFF'):j<i?'#E8E1CF':'#F5F1E8'})),
+            msg:st[i][1],btns:[{t:'Back',go:()=>this.setState({osStep:Math.max(0,i-1)}),bg:'#FBF8EE'},{t:i>=st.length-1?'Replay':'Next step',go:()=>{this.setState({osStep:i>=st.length-1?0:i+1});this.beep(400+i*80,0.06);},bg:'#C8A24B'}]})];
+      }
+      const PR=['Browser','Game','Music'],TOT=[6,4,3];
+      const tick=()=>{const rem=s.schRem.slice();if(!rem.some(x=>x>0))return;let nx=s.schCur;for(let k=0;k<3;k++){if(rem[(s.schCur+k)%3]>0){nx=(s.schCur+k)%3;break;}}
+        const run=Math.min(s.schQ,rem[nx]);rem[nx]-=run;const sw=(s.schLast!==-1&&s.schLast!==nx)?s.schSw+1:s.schSw;
+        const line=PR[nx]+' ran '+run+' unit'+(run>1?'s':'')+(rem[nx]===0?' and finished':' ('+rem[nx]+' left)')+(sw>s.schSw?' | context switch':'');
+        this.setState({schRem:rem,schCur:(nx+1)%3,schLast:nx,schSw:sw,schLog:[...s.schLog,line].slice(-6)});this.beep(500+nx*120,0.05);};
+      const reset=()=>this.setState({schRem:[6,4,3],schCur:0,schLast:-1,schSw:0,schLog:[]});
+      const fin=s.schRem.filter(x=>x===0).length;
+      return [tabs,B({label:'Time slice (quantum)',chips:[1,2,3].map(q=>({t:q+' unit'+(q>1?'s':''),bg:bg(s.schQ===q,'#6FD8B0'),op:1,go:()=>{this.setState({schQ:q});reset();}}))}),
+        B({meters:PR.map((n,i)=>({t:n+': '+s.schRem[i]+' of '+TOT[i]+' units left',col:['#FF8A6B','#6DBBFF','#B39BFF'][i],pct:(s.schRem[i]/TOT[i]*100)+'%'})),reads:[{k:'CONTEXT SWITCHES',v:s.schSw},{k:'FINISHED',v:fin+' / 3'}],
+          btns:[{t:'Run one slice',go:tick,bg:'#C8A24B'},{t:'Reset',go:reset,bg:'#FBF8EE'}]}),
+        B({lines:s.schLog.length?s.schLog.map(t=>({t,bg:'#F5F1E8'})):[{t:'Press "Run one slice" to start the round robin.',bg:'#F5F1E8'}],msg:'One core runs one process at a time. The scheduler hands out turns and switches fast, so it feels simultaneous. Try 1 unit: more switching, everyone stays responsive. Try 3 units: fewer switches, but others wait longer.'})];
+    }
+    if(v==='net'){
+      const pos=this.NETS[s.netN];
+      return [B({lines:this.NETN.map((n,i)=>({t:(i===pos?'[#] ':'[ ] ')+n,bg:i===pos?'#E8C766':'#F5F1E8'})),msg:this.NETT[s.netN],btns:[{t:s.netN>=8?'Send again':'Next hop',bg:'#C8A24B',go:()=>{this.setState({netN:s.netN>=8?0:s.netN+1});this.beep(500+s.netN*50,0.06);}}]})];
+    }
+    return [];
+  }
+
+  renderVals(){
+    const s=this.state, v=s.view;
+    const unit=this.U.find(u=>u.id===v), ui=this.U.findIndex(u=>u.id===v);
+    const isScn=!!this.SC[v];
+    const PL=['#FF8A6B','#FFD046','#6FD8B0','#6DBBFF','#B39BFF','#FF9CC2'];const cur=unit?{...unit,color:PL[ui%6],hasMore:!!unit.more,moreList:(unit.more||[]).map(m=>({h:m[0],t:m[1]}))}:isScn?{title:this.SC[v].title,color:'#FFD046'}:{title:({build:'Build your PC',quiz:'Quiz',words:'Glossary',ground:'Ground Up Computing'})[v]||'',color:({build:'#6FD8B0',quiz:'#B39BFF',words:'#6DBBFF',ground:'#6FD8B0'})[v]||'#FFD046'};
+    const doneCount=this.U.filter(u=>s.done[u.id]).length;
+    const show={lesson:v!=='home',isUnit:!!unit,isScn,build:v==='build',quiz:v==='quiz',words:v==='words',key:v==='key',ground:v==='ground'};
+    const PAL=['#FF8A6B','#FFD046','#6FD8B0','#6DBBFF','#B39BFF','#FF9CC2'];const bgs=PAL;
+    const card=(u,i)=>({rot:(i%2?0.8:-0.8),rad:['50%','28px','50% 0 50% 50%','14px 60px'][i%4],num:String(this.U.indexOf(u)+1).padStart(2,'0'),tag:u.tag,title:u.title,blurb:u.blurb,bg:bgs[i%3],op:s.done[u.id]?1:0,open:()=>this.open(u.id,'Try the toy on the right. I\'ll watch.')});
+    const out={show,cur,say:s.say,goHome:this.home,doneCount,unitTotal:this.U.length,donePct:(doneCount/this.U.length*100)+'%',
+      soundLabel:s.sound?'on':'off',toggleSound:()=>this.setState({sound:!s.sound}),
+      cdisp:v==='ground'?'none':'block',openGround:()=>this.open('ground','The full course lives here. Take your time, I will nap nearby.'),openBits:()=>this.open('bits','Everything starts with switches. Flip some!'),openBuild:()=>this.open('build','Let\'s build! I\'ll give hints.'),
+      cardsA:this.U.filter(u=>u.g==='A').map(card),cardsB:this.U.filter(u=>u.g==='B').map(card),
+      wholeCards:this.W.map((w,i)=>({...w,bg:PAL[(i+2)%6],rot:(i%2?0.6:-0.6),rad:['50%','28px','50% 0 50% 50%','14px 60px'][i%4],span:(w.id==='build'||w.id==='ground')?'span 2':'span 1',open:()=>this.open(w.id,w.id==='ground'?'The deep dive. Go chapter by chapter.':w.id==='build'?'Pick wisely. Mind the watts!':w.id==='quiz'?'You know this. Probably.':'Meow, let us see.')}))};
+
+    out.T={blocks:unit?this.toy(v):[]};
+    const pu=this.U[(ui+this.U.length-1)%this.U.length], nu=this.U[(ui+1)%this.U.length];
+    out.prevName=pu.title;out.nextName=nu.title;
+    out.prevUnit=()=>this.open(pu.id,'Back one.');out.nextUnit=()=>this.open(nu.id,'Onward!');
+    out.doneLabel=s.done[v]?'[Explored]':'[Mark explored]';out.doneBg=s.done[v]?'#E8C766':'#FBF8EE';
+    out.markDone=()=>{if(!s.done[v])this.confetti();const d={...s.done,[v]:1};this.setState({done:d,say:'Nice one! That is '+Object.keys(d).length+' down.'});this.beep(900);try{localStorage.setItem('zb-done',JSON.stringify(d));}catch(e){}};
+
+    // scenarios
+    const sc=this.SC[v]||this.SC.key, st=sc.steps[Math.min(s.scN,sc.steps.length-1)];
+    out.scn=sc;out.scnNum=s.scN+1;out.scnTotal=sc.steps.length;out.scnStep={title:st[0],text:st[1]};
+    out.scnChips=Object.keys(this.CHL).map(k=>{const on=st[2].includes(k);return {name:this.CHL[k],bg:on?'#E8C766':'#FBF8EE',sh:on?'3px 3px 0 #0B0A08':'none'};});
+    out.scnBtn=s.scN>=sc.steps.length-1?'Restart':'Next step';
+    out.scnNext=()=>{this.setState({scN:s.scN>=sc.steps.length-1?0:s.scN+1});this.beep(520+s.scN*60,0.08);};
+    out.scnPrev=()=>this.setState({scN:Math.max(0,s.scN-1)});
+    out.keyOut=s.lastKey?'"'+(s.lastKey.length===1?s.lastKey:s.lastKey)+'" = code '+(s.lastKey.length===1?s.lastKey.charCodeAt(0):'special')+' = '+(s.lastKey.length===1?s.lastKey.charCodeAt(0).toString(2).padStart(8,'0'):'-'):'waiting for a key...';
+    out.onKey=e=>{e.preventDefault();this.setState({lastKey:e.key});this.beep(700,0.05);};
+
+    // build
+    const P=id=>this.PARTS.find(p=>p.id===id), b=s.build;
+    const sel=this.SLOTS.map(x=>P(b[x[0]]));
+    const cost=sel.reduce((a,p)=>a+(p?p.price:0),0), watts=sel.reduce((a,p)=>a+(p&&p.slot!=='psu'?p.w:0),0)+30, psu=b.psu?P(b.psu).w:0;
+    const COL={case:'#8FA6E8',board:'#6FD8B0',cpu:'#FFD046',cooler:'#6DBBFF',ram:'#B39BFF',storage:'#FF9CC2',gpu:'#FF8A6B',psu:'#E8C766',fans:'#9EE6F2'};
+    const put=(slot,id)=>{const p=P(id);if(p.slot!==slot){this.setState({bhint:'Oops, '+p.label+' belongs in the '+p.slot+' slot.',tab:p.slot});this.beep(160,0.2);return;}const nb={...b,[slot]:id};const nx=this.SLOTS.find(x=>!nb[x[0]]);this.setState({build:nb,bhint:'',result:null,tab:nx?nx[0]:slot});this.beep(750);};
+    const firstEmpty=this.SLOTS.find(x=>!b[x[0]]);
+    const tab=s.tab||(firstEmpty?firstEmpty[0]:'case');
+    const powered=!!(s.result&&s.result.title==='It lives!');
+    const spin=powered?'spin .5s linear infinite':'none';
+    out.guideLabel=s.guide?'on':'off';out.toggleGuide=()=>this.setState({guide:!s.guide});
+    out.buildHint=s.bhint||(s.guide?(firstEmpty?'Kiko says: '+firstEmpty[2]:'All slots filled. Check cost and watts, then power on.'):'Hints are off. You are on your own.');
+    const sl={spin};
+    this.SLOTS.forEach(x=>{const k=x[0],p=P(b[k]);sl[k]={has:!!p,empty:!p,label:p?p.label:'',name:x[1].toUpperCase(),tag:'+ '+({case:'CASE',board:'BOARD',cpu:'CPU',cooler:'COOLER',ram:'RAM',storage:'DRIVE',gpu:'GPU',psu:'PSU',fans:'FANS'})[k],glow:tab===k?'#FFD046':'transparent',
+      over:e=>e.preventDefault(),drop:e=>{e.preventDefault();if(this.dragId)put(k,this.dragId);},
+      click:()=>{if(p){const n={...b};delete n[k];this.setState({build:n,result:null,tab:k});this.beep(300,0.06);}else this.setState({tab:k});}};});
+    const cs=P(b.case),bd=P(b.board),cp=P(b.cpu),ck=P(b.cooler),rm=P(b.ram),sd=P(b.storage),gp=P(b.gpu),ps=P(b.psu),fn=P(b.fans);
+    sl.case.fill=cs?cs.shell:'#22305f';sl.case.glass=!!(cs&&cs.glass);sl.case.rgb=!!(cs&&cs.rgb);
+    sl.board.fill=bd?bd.fill:'#2a3a70';sl.board.sock=bd?bd.sk:'';sl.board.sockTag=bd?'socket '+bd.sk:'';
+    if(cp){const n=cp.cores,cols=n<=4?2:4,rows=n/cols;sl.cpu.coreList=Array.from({length:n},(_,i)=>({x:280-cols*8+(i%cols)*16+2,y:190-rows*8+Math.floor(i/cols)*16+2}));}else sl.cpu.coreList=[];
+    sl.cooler.stock=!!ck&&ck.id==='k1';sl.cooler.tower=!!ck&&ck.id==='k2';sl.cooler.liquid=!!ck&&ck.id==='k3';
+    const rx=[376,408,440,472],ri=rm?({1:[1],2:[1,3],4:[0,1,2,3]})[rm.n]:[];
+    sl.ram.sticks=ri.map(i=>({x:rx[i]-2,cx:rx[i]+3,fill:rm.fill,top:rm.id==='r3'||rm.id==='r4'?'#FFD046':'#0B0A08'}));
+    sl.storage.nvme=!!sd&&sd.id!=='s1';sl.storage.hdd=!!sd&&sd.id==='s1';sl.storage.sink=!!sd&&(sd.id==='s3'||sd.id==='s4');
+    const hasCard=!!gp&&gp.id!=='g0';sl.gpu.card=hasCard;sl.gpu.integrated=!!gp&&gp.id==='g0';
+    if(hasCard){const w=gp.len,n=gp.id==='g2'?3:2;sl.gpu.w=w;sl.gpu.fill=gp.fill;sl.gpu.px=78+w-60;sl.gpu.lx=78+w-18;sl.gpu.fans=Array.from({length:n},(_,i)=>({t:'translate('+(78+(w-18)/(n)*(i+0.5)+8)+' 380)'}));}else sl.gpu.fans=[];
+    sl.psu.fill=ps?ps.fill:'#fff';
+    sl.fans.list=fn?Array.from({length:fn.n},(_,i)=>({y:76+i*104,t:'translate(733 '+(76+i*104+41)+')'})):[];
+    out.sl=sl;
+    out.screenText=s.result?(powered?'BOOT OK | '+s.result.lines[0]:'ERROR: '+s.result.title+' | '+s.result.lines[0]):'NO SIGNAL';
+    out.screenCol=powered?'#6FD8B0':s.result?'#FF9C8A':'#8FA6E8';out.ledCol=powered?'#6FD8B0':s.result?'#FF8A6B':'#ffffff55';
+    out.buildTabs=this.SLOTS.map(x=>({t:(b[x[0]]?'\u2713 ':'')+x[1],bg:tab===x[0]?COL[x[0]]:'#FBF8EE',sh:tab===x[0]?'3px 3px 0 #0B0A08':'none',go:()=>this.setState({tab:x[0]})}));
+    out.tray=this.PARTS.filter(p=>p.slot===tab).map(p=>{const on=b[p.slot]===p.id;return {isCase:p.slot==='case',shell:p.shell||'#fff',led:p.rgb?'#FF8A6B':'#8FA6E8',isFans:p.slot==='fans',fanN:p.slot==='fans'?Array(p.n||1).fill(0):[],isBoard:p.slot==='board',isCpu:p.slot==='cpu',isCooler:p.slot==='cooler',isRam:p.slot==='ram',isGpu:p.slot==='gpu',isPsu:p.slot==='psu',hdd:p.id==='s1',ssd:p.slot==='storage'&&p.id!=='s1',cols:p.cores>4?4:2,cores:p.slot==='cpu'?Array(p.cores).fill(0):[],sticks:p.slot==='ram'?Array(p.n).fill(0):[],fans:p.slot==='gpu'?Array({g0:0,g1:2,g2:3}[p.id]).fill(0):[],integrated:p.id==='g0',label:p.label,note:p.note,price:p.price,w:p.w,bg:on?COL[p.slot]:'#FBF8EE',drag:()=>{this.dragId=p.id;},put:()=>put(p.slot,p.id)};});
+    out.cost=cost;out.watts=watts;out.psuW=psu;out.costCol=cost>1200?'#E8A598':'#E8C766';out.wattCol=(psu&&watts>psu)?'#E8A598':'#E8C766';
+    out.hasResult=!!s.result;out.result=s.result||{lines:[]};
+    out.powerOn=()=>{
+      const miss=this.SLOTS.filter(x=>!b[x[0]]).map(x=>x[1]);const cs=P(b.case),bd=P(b.board),cp=P(b.cpu),ck=P(b.cooler),rm=P(b.ram),sd=P(b.storage),gp=P(b.gpu),pu=P(b.psu),fn=P(b.fans);let r;
+      if(miss.length) r={bg:'#F2E4BE',title:'Not finished',lines:['Still missing: '+miss.join(', ')+'.']};
+      else if(cp.sk!==bd.sk) r={bg:'#E8A598',title:'Will not fit',lines:['The CPU is for socket '+cp.sk+' but the board is '+bd.sk+'. Pins would bend.']};
+      else if(cs.size===1&&gp.id==='g2') r={bg:'#E8A598',title:'Will not fit',lines:['The High GPU is too long for the Mini case. Pick a bigger case or a smaller card.']};
+      else if(cost>1200) r={bg:'#E8A598',title:'Over budget',lines:['You spent $'+cost+'. The limit is $1200.']};
+      else if(watts>pu.w) r={bg:'#E8A598',title:'Power trips',lines:['The parts want '+watts+'W but the supply gives '+pu.w+'W. It shuts off.']};
+      else{const air=fn.cool+(cs.size===1?-0.5:cs.size===3?0.3:0);const hot=cp.heat>ck.cool+air;const fps=Math.round((cp.perf+gp.perf+rm.perf)*(hot?0.7:1)*1.4);r={bg:'#CFE2F3',title:'It lives!',lines:['Boot time: about '+sd.boot+' seconds.','Game speed: about '+fps+' frames per second.',hot?'Heat is winning. Stronger cooler or more case fans would stop the CPU slowing itself down by 30%.':'Cooling and airflow keep the CPU comfortable.',pu.w>watts*2.2?'The supply is much bigger than needed. You could have saved money.':'Power use looks well matched.',sd.id==='s1'?'A hard drive makes everything load slowly. An SSD would feel much snappier.':'Fast storage makes the whole PC feel quick.'].filter(Boolean)};}
+      this.setState({result:r,say:r.title==='It lives!'?'Purrrfect! You built a computer!':'Hmm. Read the note below.'});if(r.title==='It lives!')this.confetti();this.beep(r.title==='It lives!'?980:180,0.25);
+    };
+
+    // quiz
+    const q=this.QZ[Math.min(s.qi,this.QZ.length-1)], qd=s.qi>=this.QZ.length;
+    out.quizOpen=!qd;out.quizDone=qd;out.qNum=s.qi+1;out.qTotal=this.QZ.length;out.qText=q[0];out.qScore=s.qs;out.qPicked=s.qpick!==null;
+    out.qOpts=q[1].map((t,i)=>({t,bg:s.qpick===null?'#F5F1E8':i===q[2]?'#BFE0B0':i===s.qpick?'#E8A598':'#F5F1E8',go:()=>{if(s.qpick!==null)return;const ok=i===q[2];this.setState({qpick:i,qs:s.qs+(ok?1:0)});if(ok)this.confetti();this.beep(ok?900:200,0.12);}}));
+    out.qMsg=s.qpick===null?'':s.qpick===q[2]?'Correct!':'Not quite. The answer is "'+q[1][q[2]]+'".';
+    out.qNext=()=>this.setState({qi:s.qi+1,qpick:null});out.qRestart=()=>this.setState({qi:0,qs:0,qpick:null});
+    out.qVerdict=s.qs>=9?'Computer wizard. Kiko is purring.':s.qs>=6?'Solid. A few more toys and you are there.':'Good start. Go poke the units again.';
+
+    // glossary
+    out.wordQ=s.wordQ;out.setWordQ=e=>this.setState({wordQ:e.target.value});
+    out.wordList=this.GL.filter(g=>(g[0]+g[1]).toLowerCase().includes(s.wordQ.toLowerCase())).map(g=>({t:g[0],d:g[1]}));
+    return out;
+  }
+}
+</script>
+</body>
+</html>
